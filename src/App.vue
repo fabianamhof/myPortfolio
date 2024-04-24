@@ -1,50 +1,32 @@
 <script setup>
-import { TresCanvas, useRenderLoop } from '@tresjs/core';
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
-
-import MountainModel from '@/components/MountainModel.vue';
-import { shallowRef } from 'vue';
-
-const gl = {
-  shadows: true,
-  alpha: true,
-  shadowMapType: BasicShadowMap,
-  outputColorSpace: SRGBColorSpace,
-  toneMapping: NoToneMapping,
-  windowSize: true,
-
-}
-
-const camera = shallowRef();
-
-const { onLoop } = useRenderLoop();
-
-let angle = 0;
-let radius = 20;
-onLoop(({ delta, elapsed }) => {
-  angle += 0.0005
-
-  camera.value.position.x = Math.cos(angle) * radius
-  camera.value.position.z = Math.sin(angle) * radius
-  camera.value.lookAt(0, 10, 0)
-
-  console.log(camera.value);
-})
+import MountainScene from '@/MountainScene.vue';
 </script>
 <template>
   <div style="position: relative; height: 100%; width: 100%;">
-    <div class="content" style="position: absolute;">
-      <p>Hallo</p>
+    <div style="position: absolute; height: 100%; width: 100%;">
+      <div class=" content hi">
+        <div style="margin-top: -200px;">
+          <h1><span>Hi there. I'm Fabian.</span> </h1>
+          <h2>Great to see you.<br> Scroll down to get to know me a little better.
+          </h2>
+        </div>
+      </div>
+      <div class="content me">
+        <div style="margin-top: -200px;">
+          I'm a web technology enthusiast with a knack for crafting innovative solutions that seamlessly integrate with
+          user needs. My journey through Computer Science at the University of Innsbruck has equipped me with a diverse
+          skill set, covering various facets of software development. Beyond the digital realm, I find joy and vitality
+          in outdoor pursuits like hiking or soccer.
+        </div>
+      </div>
     </div>
-    <TresCanvas v-bind="gl" style="position: absolute">
-      <TresPerspectiveCamera ref="camera" :position="new Vector3(20, 0, 0)" :look-at="new Vector3(0, 10, 0)" />
+    <div style="position: fixed;">
       <Suspense>
-        <MountainModel v-if="camera" />
+        <MountainScene />
       </Suspense>
-      <TresDirectionalLight color="white" :position="[10, 10, 10]" :intensity="2" />
-      <TresAmbientLight :intensity="1" />
-    </TresCanvas>
+    </div>
   </div>
+
 </template>
 
 <style>
@@ -54,12 +36,22 @@ onLoop(({ delta, elapsed }) => {
 }
 
 .content {
-  font-size: xx-large;
-  width: 100%;
+  background-color: #e6f6fe;
+  color: gray;
   height: 100%;
   display: flex;
+  padding: 0 10rem;
+}
+
+.content.hi {
   align-items: center;
   justify-content: center;
-  z-index: -100;
+  text-align: center
+}
+
+.content.me {
+  align-items: center;
+  justify-content: end;
+  text-align: center
 }
 </style>
