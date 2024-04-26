@@ -49,6 +49,10 @@ import SkyScene from '@/SkyScene.vue';
 </template>
 
 <style>
+body {
+  background-color: black;
+}
+
 #app {
   height: 100vh;
   width: 100vw;

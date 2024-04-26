@@ -50,8 +50,8 @@ onLoop(({ delta, elapsed }) => {
   sun.value.position.x = sunX
   sun.value.position.y = sunY * 40
   sun.value.position.z = sunZ
-  sun.value.intensity = Math.max(sunY, 0) * 3
-  ambientLight.value.intensity = sunY
+  // sun.value.intensity = Math.max(sunY, 0) * 3
+  // ambientLight.value.intensity = sunY
 
   const cameraX = Math.cos(scrollPercentage * Math.PI / 2) * 20;
   const cameraYOffset = Math.max(scrollPercentage - 2 / 3, 0) * 60
@@ -71,7 +71,6 @@ onLoop(({ delta, elapsed }) => {
   cloudsModel.value.position.z = -12 + 48 * cloudPath;
 })
 
-
 watch(cloudsModel, () => {
   cloudsModel.value.lookAt(camera.value.position)
 })
@@ -83,8 +82,8 @@ watch(cloudsModel, () => {
       <TresPerspectiveCamera ref="camera" :position="new Vector3(20, 0, 0)" :look-at="new Vector3(0, 10, 0)" />
       <primitive ref="mountainModel" :object="mountain" :position="new Vector3(0, 0, 0)" />
       <primitive ref="cloudsModel" :object="clouds" :position="new Vector3(0, 7, 0)" :scale="new Vector3(2, 2, 2)" />
-      <TresDirectionalLight ref="sun" color="#ffe484" :position="new Vector3(5, 10, 200)" :intensity="15" />
-      <TresAmbientLight ref="ambientLight" color="white" :intensity="0.01" />
+      <TresDirectionalLight ref="sun" color="white" :position="new Vector3(5, 10, 200)" :intensity="3" />
+      <TresAmbientLight ref="ambientLight" color="white" :intensity="1" />
     </TresCanvas>
   </div>
 </template>
