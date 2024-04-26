@@ -1,7 +1,7 @@
 <script setup>
 import { TresCanvas, useRenderLoop } from '@tresjs/core';
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
-import { onMounted, shallowRef } from 'vue';
+import { onMounted, shallowRef, watch } from 'vue';
 import { useGLTF } from '@tresjs/cientos';
 
 const gl = {
@@ -16,52 +16,64 @@ const gl = {
 const { scene: clouds, nodes: cloudNodes } = await useGLTF('/clouds/scene.gltf')
 const { scene: mountain } = await useGLTF('/snow_mountain/scene.gltf')
 
-console.log(cloudNodes);
+
+cloudNodes.Icosphere001.position.y = 3
+cloudNodes.Icosphere002.position.y = 5
+cloudNodes.Icosphere003.position.y = 4
+cloudNodes.Icosphere004.position.y = 8
+cloudNodes.Icosphere005.position.y = 10
 cloudNodes.Cylinder005.visible = false;
+console.log(cloudNodes);
 const camera = shallowRef();
 const cloudsModel = shallowRef();
 const mountainModel = shallowRef();
 const sun = shallowRef();
-const sunObject = shallowRef();
+const ambientLight = shallowRef();
 
 const { onLoop } = useRenderLoop();
 
-let mountainAngle = 0;
 let cloudPath = 0;
-let sunPath = 0;
 onLoop(({ delta, elapsed }) => {
   cloudPath += 0.0005
   if (cloudPath > 1) {
     cloudPath = 0;
   }
 
-  sunPath += 0.005
-  if (sunPath > Math.PI * 2) {
-    sunPath = 0
-  }
-
-  const sunX = Math.cos(sunPath) * 20;
-  const sunZ = Math.sin(sunPath) * 20
-
-  sun.value.position.x = sunX
-  sun.value.position.z = sunZ
-  sunObject.value.position.x = sunX
-  sunObject.value.position.y = 20
-  sunObject.value.position.z = sunZ
 
   var docHeight = document.documentElement.scrollHeight;
   var scrollPosition = window.screenY || document.documentElement.scrollTop;
   var scrollPercentage = Math.min((scrollPosition / (docHeight - window.innerHeight)), 1);
 
-  mountainModel.value.position.z = 5 * scrollPercentage;
-  mountainModel.value.lookAt(camera.value.position);
-  mountainModel.value.rotation.y = Math.PI / 2 - Math.PI / 2 * scrollPercentage
+  const sunX = Math.cos(scrollPercentage * Math.PI * 2) * 20;
+  const sunY = Math.sin(scrollPercentage * Math.PI) + 0.5
+  const sunZ = Math.sin(scrollPercentage * Math.PI * 2) * 20
+  sun.value.position.x = sunX
+  sun.value.position.y = sunY * 40
+  sun.value.position.z = sunZ
+  sun.value.intensity = Math.max(sunY, 0) * 3
+  ambientLight.value.intensity = sunY
 
-  cloudsModel.value.position.z = -75 + 200 * cloudPath;
+  const cameraX = Math.cos(scrollPercentage * Math.PI / 2) * 20;
+  const cameraYOffset = Math.max(scrollPercentage - 2 / 3, 0) * 60
+  const cameraZ = Math.sin(scrollPercentage * Math.PI / 2) * 20
+  camera.value.position.x = cameraX
+  camera.value.position.y = cameraYOffset
+  camera.value.position.z = cameraZ
+  camera.value.lookAt(new Vector3(0, 10 + cameraYOffset, 0))
+
+  mountainModel.value.rotation.x = 0;
+  mountainModel.value.rotation.y = Math.PI / 2;
+  mountainModel.value.rotation.z = 0;
+  mountainModel.value.position.x = 0;
+  mountainModel.value.position.y = 0;
+  mountainModel.value.position.z = 0;
+
+  cloudsModel.value.position.z = -12 + 24 * cloudPath;
 })
 
-onMounted(() => {
-  console.log(clouds);
+
+watch(cloudsModel, () => {
+  cloudsModel.value.lookAt(camera.value.position)
 })
 </script>
 
@@ -69,14 +81,10 @@ onMounted(() => {
   <div>
     <TresCanvas v-bind="gl" style="position: absolute">
       <TresPerspectiveCamera ref="camera" :position="new Vector3(20, 0, 0)" :look-at="new Vector3(0, 10, 0)" />
-      <primitive ref="mountainModel" :object="mountain" :position="[0, 0, 0]" />
-      <primitive ref="cloudsModel" :object="clouds" :position="[-40, 20, 300]" :rotation="[0, 1, 0]"
-        :scale="[5, 5, 5]" />
-      <TresMesh ref="sunObject" :radius="5" :position="[0, 15, 0]">
-        <TresSphereGeometry></TresSphereGeometry>
-      </TresMesh>
-      <TresDirectionalLight ref="sun" color="#fbe8c9" :position="[5, 10, 200]" :intensity="15" />
-      <TresAmbientLight :intensity="1" />
+      <primitive ref="mountainModel" :object="mountain" :position="new Vector3(0, 0, 0)" />
+      <primitive ref="cloudsModel" :object="clouds" :position="new Vector3(0, 7, 0)" :scale="new Vector3(2, 2, 2)" />
+      <TresDirectionalLight ref="sun" color="#ffe484" :position="new Vector3(5, 10, 200)" :intensity="15" />
+      <TresAmbientLight ref="ambientLight" color="white" :intensity="0.01" />
     </TresCanvas>
   </div>
 </template>
