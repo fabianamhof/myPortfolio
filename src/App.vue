@@ -3,7 +3,7 @@ import MountainScene from '@/MountainScene.vue';
 import SkyScene from '@/SkyScene.vue';
 </script>
 <template>
-  <div style="position: relative; height: 100%; width: 100%;">
+  <div id="container" style="position: relative; height: 100%; width: 100%;">
     <div style="position: fixed;">
       <Suspense>
         <SkyScene />
@@ -31,17 +31,10 @@ import SkyScene from '@/SkyScene.vue';
           </div>
         </div>
       </div>
-      <div class="page right-content">
-        <div class="content me">
-          <h2>Me</h2>
+      <div class="page left-content">
+        <div class="content journey">
           <div>
-            I'm a web technology enthusiast with a knack for crafting innovative solutions that seamlessly integrate
-            with
-            user needs. My journey through Computer Science at the University of Innsbruck has equipped me with a
-            diverse
-            skill set, covering various facets of software development. Beyond the digital realm, I find joy and
-            vitality
-            in outdoor pursuits like hiking or soccer.
+            Click on a star
           </div>
         </div>
       </div>
@@ -63,7 +56,7 @@ import SkyScene from '@/SkyScene.vue';
 
 .page {
   color: gray;
-  height: calc(100% - 200px);
+  height: calc(100%);
   padding: 100px
 }
 
@@ -79,6 +72,12 @@ import SkyScene from '@/SkyScene.vue';
   justify-content: end;
 }
 
+.left-content {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
 .content {
   color: gray;
 }
@@ -89,6 +88,11 @@ import SkyScene from '@/SkyScene.vue';
 }
 
 .content.me {
+  text-align: right;
+  width: 30%;
+}
+
+.content.journey {
   text-align: right;
   width: 30%;
 }

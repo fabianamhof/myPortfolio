@@ -68,7 +68,7 @@ onLoop(({ delta, elapsed }) => {
   mountainModel.value.position.y = 0;
   mountainModel.value.position.z = 0;
 
-  cloudsModel.value.position.z = -12 + 24 * cloudPath;
+  cloudsModel.value.position.z = -12 + 48 * cloudPath;
 })
 
 
