@@ -1,6 +1,6 @@
 <script setup>
 import { TresCanvas, useRenderLoop } from '@tresjs/core';
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
+import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3, Color, Mesh } from 'three'
 import { onMounted, shallowRef, watch } from 'vue';
 import { useGLTF } from '@tresjs/cientos';
 
@@ -13,9 +13,26 @@ const gl = {
   windowSize: true,
 }
 
-const { scene: clouds, nodes: cloudNodes } = await useGLTF('/clouds/scene.gltf')
-const { scene: mountain } = await useGLTF('/snow_mountain/scene.gltf')
+const { scene: clouds, nodes: cloudNodes, materials: cloudMaterials } = await useGLTF('/clouds/scene.gltf')
+const { scene: mountain, nodes: mountainNodes } = await useGLTF('/snow_mountain/scene.gltf')
 
+
+for (const key in cloudNodes) {
+  const node = cloudNodes[key]
+  console.log(node)
+  if (node instanceof Mesh) { node.castShadow = true; }
+}
+
+for (const key in mountainNodes) {
+  const node = mountainNodes[key]
+  console.log(node)
+  if (node instanceof Mesh) { node.receiveShadow = true; }
+}
+
+console.log(cloudMaterials);
+for (const cloudMaterial in cloudMaterials) {
+  cloudMaterials[cloudMaterial].emissive = new Color(0.4, 0.4, 0.4)
+}
 
 cloudNodes.Icosphere001.position.y = 3
 cloudNodes.Icosphere002.position.y = 5
@@ -39,19 +56,18 @@ onLoop(({ delta, elapsed }) => {
     cloudPath = 0;
   }
 
-
   var docHeight = document.documentElement.scrollHeight;
   var scrollPosition = window.screenY || document.documentElement.scrollTop;
   var scrollPercentage = Math.min((scrollPosition / (docHeight - window.innerHeight)), 1);
 
-  const sunX = Math.cos(scrollPercentage * Math.PI * 2) * 20;
-  const sunY = Math.sin(scrollPercentage * Math.PI) + 0.5
-  const sunZ = Math.sin(scrollPercentage * Math.PI * 2) * 20
+  const sunX = Math.sin(scrollPercentage * Math.PI * 2) * 40;
+  const sunY = Math.max(Math.cos(scrollPercentage * Math.PI / 2))
+  const sunZ = Math.sin(scrollPercentage * Math.PI * 2) * 40
   sun.value.position.x = sunX
   sun.value.position.y = sunY * 40
   sun.value.position.z = sunZ
-  // sun.value.intensity = Math.max(sunY, 0) * 3
-  // ambientLight.value.intensity = sunY
+  sun.value.intensity = Math.max(sunY, 0.4) * 3
+  ambientLight.value.intensity = Math.max(sunY, 0.4)
 
   const cameraX = Math.cos(scrollPercentage * Math.PI / 2) * 20;
   const cameraYOffset = Math.max(scrollPercentage - 2 / 3, 0) * 60
@@ -82,7 +98,8 @@ watch(cloudsModel, () => {
       <TresPerspectiveCamera ref="camera" :position="new Vector3(20, 0, 0)" :look-at="new Vector3(0, 10, 0)" />
       <primitive ref="mountainModel" :object="mountain" :position="new Vector3(0, 0, 0)" />
       <primitive ref="cloudsModel" :object="clouds" :position="new Vector3(0, 7, 0)" :scale="new Vector3(2, 2, 2)" />
-      <TresDirectionalLight ref="sun" color="white" :position="new Vector3(5, 10, 200)" :intensity="3" />
+      <TresDirectionalLight ref="sun" color="white" :position="new Vector3(5, 10, 200)" :intensity="3" cast-shadow />
+      <TresDirectionalLight color="white" :position="new Vector3(5, 10, 200)" :intensity="0.1" />
       <TresAmbientLight ref="ambientLight" color="white" :intensity="1" />
     </TresCanvas>
   </div>

@@ -17,11 +17,12 @@ const gl: TresCanvasProps = {
   windowSize: true,
 }
 
-const { scene: stars } = await useGLTF('/stars/scene.gltf')
+const { scene: stars, materials: starsMaterials } = await useGLTF('/stars/scene.gltf')
 
 const tresContext = shallowRef();
 const camera = shallowRef();
 const container = shallowRef<HTMLElement>();
+const starsObject = shallowRef();
 
 const colors = [
   [0.53, 0.81, 1.0, 1],
@@ -50,6 +51,9 @@ onLoop(({ delta, elapsed }) => {
   var docHeight = document.documentElement.scrollHeight;
   var scrollPosition = window.screenY || document.documentElement.scrollTop;
   var scrollPercentage = Math.min((scrollPosition / (docHeight - window.innerHeight)), 1);
+
+  starsMaterials.star.opacity = scrollPercentage
+  starsMaterials.star.transparent = true
 
   updateBackgroundColor(scrollPercentage)
 
@@ -103,9 +107,9 @@ const brightStars = ref<Star[]>([
   <div ref="container">
     <TresCanvas ref="tresContext" v-bind="gl" style="position: absolute">
       <TresPerspectiveCamera ref="camera" :position="new Vector3(0, 0, 0)" :look-at="new Vector3(0, 0, 0)" />
-      <primitive :object="stars" />
+      <primitive ref="starsObject" :object="stars" />
       <template v-for="(star, index) in brightStars" :key="index">
-        <TresMesh ref="star" :radius="5" :position="star.point">
+        <TresMesh :radius="5" :position="star.point">
           <TresSphereGeometry></TresSphereGeometry>
         </TresMesh>
       </template>
