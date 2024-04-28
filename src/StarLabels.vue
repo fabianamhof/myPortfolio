@@ -43,14 +43,3 @@ onMounted(() => {
 
 })
 </script>
-
-<template>
-  <details v-if="false"
-    class="overflow-hidden w-full max-h-24 bg-white rounded-lg shadow-lg justify-center items-center cursor-pointer">
-    <summary class="grid grid-cols-[70px_auto] transition-all duration-150">
-      <div class="p-5 col-start-1 col-end-1 border-r text-sm flex items-center" set:html={time}></div>
-      <div class="p-5 col-start-2 col-end-2l flex items-center"></div>
-    </summary>
-    <div class="p-5 col-span-2"></div>
-  </details>
-</template>

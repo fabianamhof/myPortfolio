@@ -1,8 +1,9 @@
 <script setup>
 import { TresCanvas, useRenderLoop } from '@tresjs/core';
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3, Color, Mesh } from 'three'
-import { onMounted, shallowRef, watch } from 'vue';
+import { shallowRef, watch } from 'vue';
 import { useGLTF } from '@tresjs/cientos';
+import { getCurrentPosition, getPositionBetween } from './positionInfo';
 
 const gl = {
   shadows: true,
@@ -25,8 +26,7 @@ for (const key in cloudNodes) {
 
 for (const key in mountainNodes) {
   const node = mountainNodes[key]
-  console.log(node)
-  if (node instanceof Mesh) { node.receiveShadow = true; }
+  node.receiveShadow = true;
 }
 
 console.log(cloudMaterials);
@@ -56,26 +56,32 @@ onLoop(({ delta, elapsed }) => {
     cloudPath = 0;
   }
 
-  var docHeight = document.documentElement.scrollHeight;
-  var scrollPosition = window.screenY || document.documentElement.scrollTop;
-  var scrollPercentage = Math.min((scrollPosition / (docHeight - window.innerHeight)), 1);
+  const docHeight = document.documentElement.scrollHeight
+  const scrollPosition = window.screenY || document.documentElement.scrollTop
+  const scrollPercentage = Math.min(scrollPosition / (docHeight - window.innerHeight), 1)
 
-  const sunX = Math.sin(scrollPercentage * Math.PI * 2) * 40;
-  const sunY = Math.max(Math.cos(scrollPercentage * Math.PI / 2))
-  const sunZ = Math.sin(scrollPercentage * Math.PI * 2) * 40
-  sun.value.position.x = sunX
-  sun.value.position.y = sunY * 40
-  sun.value.position.z = sunZ
-  sun.value.intensity = Math.max(sunY, 0.4) * 3
-  ambientLight.value.intensity = Math.max(sunY, 0.4)
+  const { prevPage } = getCurrentPosition();
+  if (prevPage < 3) {
+    const scroll_0_3 = getPositionBetween(0, 3)
+    const sunX = Math.sin(scroll_0_3 * Math.PI * 2) * 40;
+    const sunY = Math.max(Math.cos(scroll_0_3 * Math.PI / 2))
+    const sunZ = Math.sin(scroll_0_3 * Math.PI * 2) * 40
+    sun.value.position.x = sunX
+    sun.value.position.y = sunY * 40
+    sun.value.position.z = sunZ
+    sun.value.intensity = Math.max(sunY, 0.4) * 3
+    ambientLight.value.intensity = Math.max(sunY, 0.4)
+    const cameraX = Math.cos(scroll_0_3 * Math.PI / 2) * 20;
+    const cameraZ = Math.sin(scroll_0_3 * Math.PI / 2) * 20
+    camera.value.position.x = cameraX
+    camera.value.position.z = cameraZ
 
-  const cameraX = Math.cos(scrollPercentage * Math.PI / 2) * 20;
-  const cameraYOffset = Math.max(scrollPercentage - 2 / 3, 0) * 60
-  const cameraZ = Math.sin(scrollPercentage * Math.PI / 2) * 20
-  camera.value.position.x = cameraX
-  camera.value.position.y = cameraYOffset
-  camera.value.position.z = cameraZ
-  camera.value.lookAt(new Vector3(0, 10 + cameraYOffset, 0))
+    const scroll_2_3 = getPositionBetween(2, 3)
+    const cameraYOffset = scroll_2_3 * 4 * 70
+    camera.value.position.y = cameraYOffset
+    camera.value.lookAt(new Vector3(0, 10 + cameraYOffset, 0))
+  }
+
 
   mountainModel.value.rotation.x = 0;
   mountainModel.value.rotation.y = Math.PI / 2;

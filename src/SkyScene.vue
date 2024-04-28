@@ -7,6 +7,7 @@ import { ref, shallowRef } from 'vue';
 import StarLabels from "@/StarLabels.vue";
 import type { Star } from './types';
 import type { TresCanvasProps } from '@tresjs/core/dist/src/components/TresCanvas.vue.js';
+import { getCurrentPosition, getElementVisibility, getPositionBetween } from './positionInfo';
 
 const gl: TresCanvasProps = {
   shadows: true,
@@ -23,11 +24,13 @@ const tresContext = shallowRef();
 const camera = shallowRef();
 const container = shallowRef<HTMLElement>();
 const starsObject = shallowRef();
+const spaceshipObject = shallowRef();
 
 const colors = [
   [0.53, 0.81, 1.0, 1],
   [1.0, 0.22, 0.1, 1],
-  [0.53, 0.81, 1.0, 0.2]
+  [0.53, 0.81, 1.0, 0.2],
+  [0.53, 0.81, 1.0, 0.2],
 ]
 
 // Calculate the color transition based on scroll percentage
@@ -47,26 +50,33 @@ function updateBackgroundColor(scrollPercentage: number) {
 const { onLoop } = useRenderLoop();
 
 onLoop(({ delta, elapsed }) => {
-
-  var docHeight = document.documentElement.scrollHeight;
-  var scrollPosition = window.screenY || document.documentElement.scrollTop;
-  var scrollPercentage = Math.min((scrollPosition / (docHeight - window.innerHeight)), 1);
-
+  const { prevPage, scrollPercentage, visibility } = getCurrentPosition();
+  console.log(getCurrentPosition())
   starsMaterials.star.opacity = scrollPercentage
   starsMaterials.star.transparent = true
 
   updateBackgroundColor(scrollPercentage)
 
-  const cameraX = Math.cos(scrollPercentage * Math.PI / 2) * 20;
-  const cameraYOffset = Math.max(scrollPercentage - 2 / 3, 0) * 140
-  const cameraZ = Math.sin(scrollPercentage * Math.PI / 2) * 20
-  camera.value.position.x = cameraX
-  camera.value.position.y = cameraYOffset
-  camera.value.position.z = cameraZ
-  camera.value.lookAt(new Vector3(0, 10 + cameraYOffset, 0))
+  if (prevPage < 3) {
+    const scroll_0_3 = getPositionBetween(0, 3)
+    const cameraX = Math.cos(scroll_0_3 * Math.PI / 2) * 20;
+    const cameraZ = Math.sin(scroll_0_3 * Math.PI / 2) * 20
+    camera.value.position.x = cameraX
+    camera.value.position.z = cameraZ
 
-  document.querySelector<HTMLElement>(".content.me")!.style.opacity = `${(1 - Math.max(0, (scrollPercentage - 1 / 2) * 6))}`
-  document.querySelector<HTMLElement>(".content.journey")!.style.opacity = `${(Math.max(0, (scrollPercentage - 9 / 10) * 10))}`
+    const scroll_2_3 = getPositionBetween(2, 3)
+    const cameraYOffset = scroll_2_3 * 50
+    camera.value.position.y = cameraYOffset
+    camera.value.lookAt(new Vector3(0, 10 + cameraYOffset, 0))
+  } if (prevPage >= 3) {
+    const scroll_3_4 = getPositionBetween(3, 4)
+
+    camera.value.rotation.y = -scroll_3_4 * Math.PI / 3
+  }
+
+  console.log(getElementVisibility(".page.me"));
+  document.querySelector<HTMLElement>(".content.me")!.style.opacity = `${(getElementVisibility(".page.me") ** 10)}`
+  document.querySelector<HTMLElement>(".content.journey")!.style.opacity = `${getElementVisibility(".page.journey") ** 10}`
 })
 
 const brightStars = ref<Star[]>([
