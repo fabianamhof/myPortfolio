@@ -4,5 +4,4 @@ type Star = {
   title: string
   description: string
   point: Vector3
-  labelOffsetX: number
 }
