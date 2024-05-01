@@ -13,10 +13,14 @@ const props = defineProps<{
 
 const htmlRenderer = new CSS3DRenderer();
 function render() {
+  starLabels.forEach((l) => l.lookAt(camera.value!.position))
+
   htmlRenderer.setSize(renderer.value.domElement.clientWidth, renderer.value.domElement.clientHeight)
   htmlRenderer.render(scene.value, camera.value!)
   requestAnimationFrame(render)
 }
+
+const starLabels = [];
 
 onMounted(() => {
   const hiEl = document.createElement("div");
@@ -71,13 +75,14 @@ onMounted(() => {
 
     console.log(el.clientWidth)
     const starObject = new CSS3DObject(el);
-    starObject.position.x = star.point.x - 3
+    starObject.position.x = star.point.x - 2;
     starObject.position.y = star.point.y;
     starObject.position.z = star.point.z;
-    starObject.scale.x = 0.02
-    starObject.scale.y = 0.02
-    starObject.scale.z = 0.02
+    starObject.scale.x = 0.03
+    starObject.scale.y = 0.03
+    starObject.scale.z = 0.03
     starObject.rotateY(Math.PI)
+    starLabels.push(starObject)
 
     scene.value.add(starObject);
   }
@@ -91,7 +96,7 @@ onMounted(() => {
     </div>
   </div>`
   const journey = new CSS3DObject(journeyEl);
-  journey.position.x = middleStar.point.x + 10
+  journey.position.x = 4
   journey.position.y = middleStar.point.y
   journey.position.z = middleStar.point.z
   journey.scale.x = 0.05
@@ -160,7 +165,7 @@ onMounted(() => {
 }
 
 #journey {
-  @apply text-left w-1/3 opacity-0
+  @apply text-right w-[200px] lg:w-[300px] opacity-0
 }
 
 #thanks {

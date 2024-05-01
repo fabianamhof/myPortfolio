@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { TresCanvas, useRenderLoop } from '@tresjs/core';
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3, Color, Mesh } from 'three'
-import { onMounted, ref, shallowRef, watch } from 'vue';
-import { Line2, OrbitControls, useGLTF } from '@tresjs/cientos';
 import CSS3DContent from "@/CSS3DContent.vue";
-import type { Star } from './types';
+import { Line2, useGLTF } from '@tresjs/cientos';
+import { TresCanvas, useRenderLoop } from '@tresjs/core';
 import gsap from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { getCurrentPosition } from './positionInfo';
+import { BasicShadowMap, Color, Mesh, NoToneMapping, SRGBColorSpace, Vector3 } from 'three';
+import { onMounted, ref, shallowRef, watch } from 'vue';
+import type { Star } from './types';
 
 const { scene: stars, materials: starsMaterials } = await useGLTF('/stars/scene.gltf')
-
-const tresContext = shallowRef();
-const container = shallowRef<HTMLElement>();
-const starsObject = shallowRef();
 
 const brightStars = ref<Star[]>([
   {
@@ -83,11 +79,15 @@ const cloudsModel = shallowRef();
 const mountainModel = shallowRef();
 const sun = shallowRef();
 const ambientLight = shallowRef();
+const tresContext = shallowRef();
+const starsObject = shallowRef();
+
 
 const { onLoop } = useRenderLoop();
 
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(MotionPathPlugin)
 ScrollTrigger.defaults({
   immediateRender: false,
 });
@@ -101,53 +101,57 @@ let cameraAnimation1 = gsap.timeline({
   }
 });
 
-// let cameraAnimation2 = gsap.timeline({
-//   scrollTrigger: {
-//     trigger: "#page2",
-//     start: "bottom bottom",
-//     endTrigger: "#page3",
-//     end: "bottom bottom",
-//     scrub: 1,
-//   }
-// });
-
-// let cameraAnimation3 = gsap.timeline({
-//   scrollTrigger: {
-//     trigger: "#page3",
-//     start: "bottom bottom",
-//     endTrigger: "#page4",
-//     end: "bottom bottom",
-//     scrub: 1,
-//   }
-// });
-
-
+let cloudAnimation = gsap.timeline({
+  repeat: 100
+});
 
 
 let cloudPath = 0;
 let lookAt = new Vector3(0, 10, 0)
 let firstIter = false
-
-const color1 = "linear-gradient(90deg, rgba(156,36,64,1) 34%, rgba(46,125,152,1) 100%);"
-
+let starsOpacity = { value: 0 };
+let cloudsOpacity = { value: 0 }
 onLoop(({ delta, elapsed }) => {
   if (!firstIter) {
-    cameraAnimation1.to(camera?.value.position, { x: -10, y: 0, z: -20 })
+    mountainModel.value.rotation.x = 0;
+    mountainModel.value.rotation.y = Math.PI / 2;
+    mountainModel.value.rotation.z = 0;
+    mountainModel.value.position.x = 0;
+    mountainModel.value.position.y = 0;
+    mountainModel.value.position.z = 0;
+
+    cloudsOpacity.value = 0;
+    cloudsModel.value.position.z = -24
+
+    const path = [
+      { x: Math.cos(0) * 30 - 10, y: 0, z: Math.sin(0) * -20 },
+      { x: Math.cos(Math.PI / 4) * 30 - 10, y: 0, z: Math.sin(Math.PI / 4) * -20 },
+      { x: Math.cos(Math.PI / 2) * 30 - 10, y: 0, z: Math.sin(Math.PI / 2) * -20 }
+    ]
+    console.log(path);
+    cameraAnimation1.to(camera?.value.position, {
+      motionPath: {
+        path,
+      }
+    })
     cameraAnimation1.to("body", { "--color": "rgba(156,36,64,1)", "--color2": "rgba(46,125,152,1)" }, "<")
     cameraAnimation1.to(lookAt, { x: -10, y: 10, z: 0 }, "<")
     cameraAnimation1.to("#hi", { opacity: 0, duration: 0.2 }, "<")
+    cameraAnimation1.to(starsOpacity, { value: 1 }, "<")
     cameraAnimation1.to("#me", { opacity: 1, duration: 0.2 }, "<0.2")
 
-    cameraAnimation1.to(camera?.value.position, { x: 4, y: 55, z: -40 }, ">0.5")
+    cameraAnimation1.to(camera?.value.position, { x: -1, y: 55, z: -40 }, ">0.5")
     cameraAnimation1.to("body", { "--color": "rgba(17,29,33,1)", "--color2": "rgba(17,29,33,1)" }, "<")
-    cameraAnimation1.to(lookAt, { x: 4, y: 55, z: 0 }, "<")
+    cameraAnimation1.to(lookAt, { x: -1, y: 55, z: 0 }, "<")
     cameraAnimation1.to("#journey", { opacity: 1, duration: 0.5 }, "<")
 
     cameraAnimation1.to(camera?.value.position, { x: 0, y: 55, z: -40 }, ">0.5")
     cameraAnimation1.to(lookAt, { x: -34, y: 55, z: -40 }, "<")
     cameraAnimation1.to("#thanks", { opacity: 1, duration: 0.5 }, "<")
 
-
+    cloudAnimation.to(cloudsModel.value.position, { z: 24, duration: 20 })
+    cloudAnimation.to(cloudsOpacity, { value: 0.9, duration: 2 }, "<")
+    cloudAnimation.to(cloudsOpacity, { value: 0, duration: 2 }, 18)
     firstIter = true
   }
 
@@ -156,17 +160,19 @@ onLoop(({ delta, elapsed }) => {
     cloudPath = 0;
   }
 
-
-  mountainModel.value.rotation.x = 0;
-  mountainModel.value.rotation.y = Math.PI / 2;
-  mountainModel.value.rotation.z = 0;
-  mountainModel.value.position.x = 0;
-  mountainModel.value.position.y = 0;
-  mountainModel.value.position.z = 0;
-
-  cloudsModel.value.position.z = -12 + 48 * cloudPath;
+  console.log(cloudsModel.value.position)
 
   camera.value.lookAt(lookAt)
+
+  Object.values(starsMaterials).forEach(m => {
+    m.transparent = true;
+    m.opacity = starsOpacity.value;
+  })
+
+  Object.values(cloudMaterials).forEach(m => {
+    m.transparent = true;
+    m.opacity = cloudsOpacity.value;
+  })
 })
 
 watch(cloudsModel, () => {
@@ -186,7 +192,7 @@ onMounted(() => {
       <TresPerspectiveCamera ref="camera" :position="new Vector3(20, 0, 0)" :look-at="new Vector3(0, 10, 0)" />
       <!-- <OrbitControls></OrbitControls> -->
       <primitive ref="mountainModel" :object="mountain" :position="new Vector3(0, 0, 0)" />
-      <primitive ref="cloudsModel" :object="clouds" :position="new Vector3(0, 7, 0)" :scale="new Vector3(2, 2, 2)" />
+      <primitive ref="cloudsModel" :object="clouds" :position="new Vector3(8, 7, 0)" :scale="new Vector3(2, 2, 2)" />
       <primitive ref="starsObject" :object="stars" />
       <template v-for="(star, index) in brightStars" :key="index">
         <TresMesh :position="star.point" :scale="new Vector3(0.3, 0.3, 0.3)">
@@ -195,7 +201,7 @@ onMounted(() => {
       </template>
       <Line2 :points="brightStars.map((star) => star.point)" :line-width="0.001"></Line2>
       <CSS3DContent :stars="brightStars"></CSS3DContent>
-      <TresDirectionalLight ref="sun" color="white" :position="new Vector3(5, 10, 200)" :intensity="3" cast-shadow />
+      <TresDirectionalLight ref="sun" color="white" :position="new Vector3(-15, 50, 100)" :intensity="3" cast-shadow />
       <TresAmbientLight ref="ambientLight" color="white" :intensity="1" />
     </TresCanvas>
   </div>
