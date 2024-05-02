@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BasicShadowMap, Color, Mesh, NoToneMapping, SRGBColorSpace, Vector3 } from 'three';
-import { onMounted, ref, shallowRef, watch } from 'vue';
+import { ref, shallowRef, watch } from 'vue';
 import type { Star } from './types';
 
 const { scene: stars, materials: starsMaterials } = await useGLTF('/stars/scene.gltf')
@@ -15,27 +15,32 @@ const brightStars = ref<Star[]>([
   {
     title: "1997",
     description: "I came into the world in 97, right here in Welsberg, South Tyrol.",
-    point: new Vector3(0, 70, 5),
+    point: new Vector3(15, 65, 5),
+    offset: new Vector3(1, 1, 0)
   },
   {
     title: "2003-2016",
     description: "Spent some good years at TFO Bruneck. It helped me evolving me and my technical skills.",
-    point: new Vector3(-2, 65, 3),
+    point: new Vector3(7, 65, 3),
+    offset: new Vector3(-1, 1, 0)
   },
   {
     title: "2016-2019",
     description: "Worked for three years at Elpo Bruneck, handling building control systems. It was a job that kept me engaged and encouraged innovation.",
-    point: new Vector3(-4, 55, 0),
+    point: new Vector3(4, 61, 0),
+    offset: new Vector3(1, -1, 0)
   },
   {
     title: "2019-2022",
     description: "Took a three-year stint in Innsbruck to dive into Computer Science. Explored the vast world of tech and picked up valuable skills.",
-    point: new Vector3(-1, 51, -1),
+    point: new Vector3(-2, 62, -1),
+    offset: new Vector3(0, 1, 0)
   },
   {
     title: "Since 2022",
     description: "Since 2022, I've been working with the SiMedia crew. It's been a journey of collaboration and innovation, and I'm embracing every moment.",
-    point: new Vector3(0, 40, -4),
+    point: new Vector3(-5, 57, -4),
+    offset: new Vector3(0, -1, 0)
   }
 ])
 
@@ -45,7 +50,7 @@ const gl = {
   shadowMapType: BasicShadowMap,
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
-  windowSize: true,
+  windowSize: true
 }
 
 const { scene: clouds, nodes: cloudNodes, materials: cloudMaterials } = await useGLTF('/clouds/scene.gltf')
@@ -93,20 +98,38 @@ ScrollTrigger.defaults({
 });
 let cameraAnimation1 = gsap.timeline({
   scrollTrigger: {
-    trigger: ".pageContainer",
+    trigger: "#page1",
     start: "top top",
-    endTrigger: ".pageContainer",
+    endTrigger: "#page2",
     end: "bottom bottom",
     scrub: 1,
   }
 });
+let cameraAnimation2 = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#page2",
+    start: "bottom bottom",
+    endTrigger: "#page3",
+    end: "bottom bottom",
+    scrub: 1,
+  }
+});
+let cameraAnimation3 = gsap.timeline({
+  scrollTrigger: {
+    trigger: "#page3",
+    start: "bottom bottom",
+    endTrigger: "#page4",
+    end: "bottom bottom",
+    scrub: 1,
+  }
+});
+
 
 let cloudAnimation = gsap.timeline({
   repeat: 100
 });
 
 
-let cloudPath = 0;
 let lookAt = new Vector3(0, 10, 0)
 let firstIter = false
 let starsOpacity = { value: 0 };
@@ -124,43 +147,37 @@ onLoop(({ delta, elapsed }) => {
     cloudsModel.value.position.z = -24
 
     const path = [
-      { x: Math.cos(0) * 30 - 10, y: 0, z: Math.sin(0) * -20 },
-      { x: Math.cos(Math.PI / 4) * 30 - 10, y: 0, z: Math.sin(Math.PI / 4) * -20 },
-      { x: Math.cos(Math.PI / 2) * 30 - 10, y: 0, z: Math.sin(Math.PI / 2) * -20 }
+      { x: 20, y: 0, z: 0 },
+      { x: -10, y: 0, z: -20 }
     ]
     console.log(path);
     cameraAnimation1.to(camera?.value.position, {
       motionPath: {
         path,
+        curviness: 2
       }
     })
-    cameraAnimation1.to("body", { "--color": "rgba(156,36,64,1)", "--color2": "rgba(46,125,152,1)" }, "<")
     cameraAnimation1.to(lookAt, { x: -10, y: 10, z: 0 }, "<")
+    cameraAnimation1.to("body", { "--color": "rgba(156,36,64,1)", "--color2": "rgba(46,125,152,1)" }, "<")
     cameraAnimation1.to("#hi", { opacity: 0, duration: 0.2 }, "<")
     cameraAnimation1.to(starsOpacity, { value: 1 }, "<")
     cameraAnimation1.to("#me", { opacity: 1, duration: 0.2 }, "<0.2")
 
-    cameraAnimation1.to(camera?.value.position, { x: -1, y: 55, z: -40 }, ">0.5")
-    cameraAnimation1.to("body", { "--color": "rgba(17,29,33,1)", "--color2": "rgba(17,29,33,1)" }, "<")
-    cameraAnimation1.to(lookAt, { x: -1, y: 55, z: 0 }, "<")
-    cameraAnimation1.to("#journey", { opacity: 1, duration: 0.5 }, "<")
+    cameraAnimation2.to(camera?.value.position, { x: 4, y: 55, z: -25 }, ">0.1")
+    cameraAnimation2.to(lookAt, { x: 4, y: 55, z: 0 }, "<")
+    cameraAnimation2.to("body", { "--color": "rgba(17,29,33,1)", "--color2": "rgba(17,29,33,1)" }, "<")
+    cameraAnimation2.to("#journey", { opacity: 1, duration: 0.5 }, "<")
 
-    cameraAnimation1.to(camera?.value.position, { x: 0, y: 55, z: -40 }, ">0.5")
-    cameraAnimation1.to(lookAt, { x: -34, y: 55, z: -40 }, "<")
-    cameraAnimation1.to("#thanks", { opacity: 1, duration: 0.5 }, "<")
+    cameraAnimation3.to(camera?.value.position, { x: 0, y: 55, z: -40 }, ">0.1")
+    cameraAnimation3.to(lookAt, { x: -25, y: 55, z: -40 }, "<")
+    cameraAnimation3.to("#thanks", { opacity: 1, duration: 0.5 }, "<")
 
-    cloudAnimation.to(cloudsModel.value.position, { z: 24, duration: 20 })
+    cloudAnimation.to(cloudsModel.value.position, { z: 48, duration: 20 })
     cloudAnimation.to(cloudsOpacity, { value: 0.9, duration: 2 }, "<")
     cloudAnimation.to(cloudsOpacity, { value: 0, duration: 2 }, 18)
+
     firstIter = true
   }
-
-  cloudPath += 0.0005
-  if (cloudPath > 1) {
-    cloudPath = 0;
-  }
-
-  console.log(cloudsModel.value.position)
 
   camera.value.lookAt(lookAt)
 
@@ -178,12 +195,6 @@ onLoop(({ delta, elapsed }) => {
 watch(cloudsModel, () => {
   cloudsModel.value.lookAt(camera.value.position)
 })
-
-onMounted(() => {
-
-
-  // 
-})
 </script>
 
 <template>
@@ -195,11 +206,11 @@ onMounted(() => {
       <primitive ref="cloudsModel" :object="clouds" :position="new Vector3(8, 7, 0)" :scale="new Vector3(2, 2, 2)" />
       <primitive ref="starsObject" :object="stars" />
       <template v-for="(star, index) in brightStars" :key="index">
-        <TresMesh :position="star.point" :scale="new Vector3(0.3, 0.3, 0.3)">
+        <TresMesh :position="star.point" :scale="new Vector3(0.2, 0.2, 0.2)">
           <TresSphereGeometry></TresSphereGeometry>
         </TresMesh>
       </template>
-      <Line2 :points="brightStars.map((star) => star.point)" :line-width="0.001"></Line2>
+      <Line2 :points="brightStars.map((star) => star.point)" :line-width="0.002"></Line2>
       <CSS3DContent :stars="brightStars"></CSS3DContent>
       <TresDirectionalLight ref="sun" color="white" :position="new Vector3(-15, 50, 100)" :intensity="3" cast-shadow />
       <TresAmbientLight ref="ambientLight" color="white" :intensity="1" />

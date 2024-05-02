@@ -13,8 +13,6 @@ const props = defineProps<{
 
 const htmlRenderer = new CSS3DRenderer();
 function render() {
-  starLabels.forEach((l) => l.lookAt(camera.value!.position))
-
   htmlRenderer.setSize(renderer.value.domElement.clientWidth, renderer.value.domElement.clientHeight)
   htmlRenderer.render(scene.value, camera.value!)
   requestAnimationFrame(render)
@@ -26,14 +24,14 @@ onMounted(() => {
   const hiEl = document.createElement("div");
   hiEl.innerHTML = `
   <div id="hi" class="content">
-    <h1><span>Hi there. I'm Fabian.</span> </h1>
+    <h1>Hi there. I'm Fabian.</h1>
     <h2>Great to see you.<br> Scroll down to get to know me a little better.
     </h2>
   </div>
   `
   const hi = new CSS3DObject(hiEl);
   hi.position.x = -5
-  hi.position.y = 14
+  hi.position.y = 15
   hi.position.z = 0
   hi.scale.x = 0.05
   hi.scale.y = 0.05
@@ -44,7 +42,7 @@ onMounted(() => {
   const meEl = document.createElement("div");
   meEl.innerHTML = `
   <div id="me" class="content">
-    <h2>Me</h2>
+    <h1>Me</h1>
     <div>
       I'm a web technology enthusiast with a knack for crafting innovative solutions that seamlessly integrate
       with
@@ -70,14 +68,13 @@ onMounted(() => {
     el.innerHTML = star.title;
     el.className = "starButton"
     el.onclick = () => {
-      document.getElementById("journey")!.innerHTML = star.description
+      document.querySelector("#journey div")!.innerHTML = star.description
     }
 
-    console.log(el.clientWidth)
     const starObject = new CSS3DObject(el);
-    starObject.position.x = star.point.x - 2;
-    starObject.position.y = star.point.y;
-    starObject.position.z = star.point.z;
+    starObject.position.x = star.point.x + star.offset.x;
+    starObject.position.y = star.point.y + star.offset.y;
+    starObject.position.z = star.point.z + star.offset.z;
     starObject.scale.x = 0.03
     starObject.scale.y = 0.03
     starObject.scale.z = 0.03
@@ -87,18 +84,19 @@ onMounted(() => {
     scene.value.add(starObject);
   }
 
-  const middleStar = props.stars[Math.floor(props.stars.length / 2)]
+
   const journeyEl = document.createElement("div");
   journeyEl.innerHTML = `
   <div id="journey" class="content">
+    <h1>My journey</h1>
     <div>
       Click on a star.
     </div>
   </div>`
   const journey = new CSS3DObject(journeyEl);
-  journey.position.x = 4
-  journey.position.y = middleStar.point.y
-  journey.position.z = middleStar.point.z
+  journey.position.x = 5
+  journey.position.y = 55
+  journey.position.z = 0
   journey.scale.x = 0.05
   journey.scale.y = 0.05
   journey.scale.z = 0.05
@@ -112,25 +110,24 @@ onMounted(() => {
       Thank you!
     </h1>
     <div>
-      <span>
-        <br>Here are some of the technologies that helped me build this website.<br>
-      </span>
-      <span>
-        <a href="https://astro.build/"><img alt="Astro" src="/astro.png"></a>
-        <a href="https://tailwindcss.com/"><img alt="Tailwind" src="/tailwind.png"></a>
-        <a href="https://aws.amazon.com/"><img alt="AWS" src="/aws.png"></a>
-        <a href="https://github.com/fabianamhof/myWebsite2"><img alt="Github" src="/github.png"></a>
+      Here are some of the technologies that helped me build this website.<br>
+      <span class="flex justify-center items-center gap-2 my-2">
+        <a class="hover:invert" href="https://vuejs.org//"><img alt="Three.js" src="/threejs.png"></a>
+        <a class="invert hover:invert-0" href="https://tailwindcss.com/"><img alt="Tailwind" src="/tailwind.png"></a>
+        <a class="invert hover:invert-0" href="https://aws.amazon.com/"><img alt="AWS" src="/aws.png"></a>
+        <a class="invert hover:invert-0" href="https://threejs.org/"><img alt="Github" src="/github.png"></a>
       </span>
       <span>Contact me</span>
-      <span>
-        <a class="transition-all duration-500 h-10 hover:h-16" href="mailto:amhof.fabian1234@gmail.com"><img
-            class="h-full" alt="Mail" src="/email.png"></a>
+      <span class="flex justify-center gap-2 my-2">
+        <a href="mailto:amhof.fabian1234@gmail.com">
+          <img class="invert hover:invert-0" alt="Mail" src="/email.png">
+        </a>
       </span>
     </div>
   </div>
   `
   const thanks = new CSS3DObject(thanksEl);
-  thanks.position.x = -34
+  thanks.position.x = -28
   thanks.position.y = 55
   thanks.position.z = -40
   thanks.scale.x = 0.05
@@ -148,16 +145,17 @@ onMounted(() => {
 </script>
 
 <template>
+
 </template>
 
 
 <style>
 .content {
-  @apply text-white text-xs
+  @apply text-white
 }
 
 #hi {
-  @apply text-center text-lg
+  @apply text-center
 }
 
 #me {
@@ -165,7 +163,7 @@ onMounted(() => {
 }
 
 #journey {
-  @apply text-right w-[200px] lg:w-[300px] opacity-0
+  @apply text-center w-[300px] opacity-0
 }
 
 #thanks {
