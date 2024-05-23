@@ -20,7 +20,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page2" class="page">
         <div class="h-full flex justify-center items-center text-white text-center  pb-36">
-          <div class="m-5">
+          <div class="m-5 lg:max-w-80">
             <h1>Me</h1>
             I'm a web technology enthusiast with a knack for crafting innovative solutions that seamlessly integrate
             with
@@ -34,15 +34,15 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page3" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5">
+          <div class="m-5 lg:max-w-80">
             <h1>1997</h1>
-            I came into the world in 97, right here in Welsberg, South Tyrol."
+            I came into the world in 97, right here in Welsberg, South Tyrol.
           </div>
         </div>
       </div>
       <div id="page4" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5">
+          <div class="m-5 lg:max-w-80">
             <h1>2003-2016</h1>
             Spent some good years at TFO Bruneck. It helped me evolving me and my technical skills.
           </div>
@@ -50,7 +50,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page5" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5">
+          <div class="m-5 lg:max-w-80">
             <h1>2016-2019</h1>
             Worked for three years at Elpo Bruneck, handling building control systems. It was a job that kept me engaged and encouraged innovation.
           </div>
@@ -58,7 +58,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page6" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5">
+          <div class="m-5 lg:max-w-80">
             <h1>2019-2022</h1>
             WTook a three-year stint in Innsbruck to dive into Computer Science. Explored the vast world of tech and picked up valuable skills.
           </div>
@@ -66,7 +66,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page7" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5">
+          <div class="m-5 lg:max-w-80">
             <h1>Since 2022</h1>
             Since 2022, I've been working with the SiMedia crew. It's been a journey of collaboration and innovation, and I'm embracing every moment.
           </div>
@@ -74,7 +74,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page8" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5">
+          <div class="m-5 lg:max-w-80">
             <h1>Thank you!</h1>
             <div>
             Here are some of the technologies that helped me build this website.<br>
@@ -117,7 +117,7 @@ import MobileScene from './MobileScene.vue';
 }
 
 #content {
-  height: 100dvh;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;

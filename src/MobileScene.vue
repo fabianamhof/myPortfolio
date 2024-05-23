@@ -25,7 +25,9 @@ const { scene: mountain } = await useGLTF('/snow_mountain/scene.gltf')
 mountain.rotateY(Math.PI / 2)
 scene.add(mountain);
 
-const { scene: stars } = await useGLTF('/stars/scene.gltf')
+const { scene: stars, materials: starsMaterials } = await useGLTF('/stars/scene.gltf')
+starsMaterials.star.transparent = true;
+console.log(starsMaterials);
 scene.add(stars);
 
 const { scene: clouds, nodes: cloudNodes, materials: cloudMaterials } = await useGLTF('/clouds/scene.gltf')
@@ -61,7 +63,7 @@ scene.add(clouds)
 
 const starsShape = [
   {
-    position: new THREE.Vector3(20, 70, 0)
+    position: new THREE.Vector3(20, 75, 0)
   },
   {
     position: new THREE.Vector3(10, 85, 10)
@@ -96,6 +98,8 @@ camera.position.z = 0;
 const lookAt = new THREE.Vector3(0, 12, 0)
 
 gsap.set("#page1", { opacity: 1 });
+gsap.to(starsMaterials.star, { opacity: 0 });
+
 gsap
   .timeline({
     scrollTrigger: {
@@ -104,11 +108,10 @@ gsap
       scrub: true,
       pin: true,
       end: "bottom+=6000px",
-      markers: true
     }
   })
-  .to("#page1", { opacity: 0 }, ">2")
-  .to("#page2", { opacity: 1, duration: 2 }, ">1")
+  .to("#page1", { opacity: 0 })
+  .to("#page2", { opacity: 1, duration: 2 })
   .to(camera.position, { 
     x: 4, 
     y: 0, 
@@ -116,8 +119,9 @@ gsap
     duration: 2 
   }, "<")
   .to("body", { "--color": "rgba(156,36,64,1)", "--color2": "rgba(46,125,152,1)", duration: 2 }, "<")
-  .to("#page2", { opacity: 0 }, ">2")
-  .to("#page3", { opacity: 1, duration: 2 }, ">1")
+  .to(starsMaterials.star, { opacity: 1, duration: 2 }, "<")
+  .to("#page2", { opacity: 0 })
+  .to("#page3", { opacity: 1, duration: 2 })
   .to(lookAt, {
     x: starsShape[0].position.x,
     y: starsShape[0].position.y - 10,
@@ -131,8 +135,8 @@ gsap
     duration: 2
   }, "<")
   .to("body", { "--color": "rgba(17,29,33,1)", "--color2": "rgba(17,29,33,1)", duration: 2 }, "<")
-  .to("#page3", { opacity: 0 }, ">2")
-  .to("#page4", { opacity: 1, duration: 2 }, ">1")
+  .to("#page3", { opacity: 0 })
+  .to("#page4", { opacity: 1, duration: 2 })
   .to(lookAt, {
     x: starsShape[1].position.x,
     y: starsShape[1].position.y - 10,
@@ -145,8 +149,8 @@ gsap
     z: starsShape[1].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page4", { opacity: 0 }, ">2")
-  .to("#page5", { opacity: 1, duration: 2 }, ">1")
+  .to("#page4", { opacity: 0 })
+  .to("#page5", { opacity: 1, duration: 2 })
   .to(lookAt, {
     x: starsShape[2].position.x,
     y: starsShape[2].position.y - 10,
@@ -159,8 +163,8 @@ gsap
     z: starsShape[2].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page5", { opacity: 0 }, ">2")
-  .to("#page6", { opacity: 1, duration: 2 }, ">1")
+  .to("#page5", { opacity: 0 })
+  .to("#page6", { opacity: 1, duration: 2 })
   .to(lookAt, {
     x: starsShape[3].position.x,
     y: starsShape[3].position.y - 10,
@@ -173,8 +177,8 @@ gsap
     z: starsShape[3].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page6", { opacity: 0 }, ">2")
-  .to("#page7", { opacity: 1, duration: 2 }, ">1")
+  .to("#page6", { opacity: 0 })
+  .to("#page7", { opacity: 1, duration: 2 })
   .to(lookAt, {
     x: starsShape[4].position.x,
     y: starsShape[4].position.y - 10,
@@ -187,12 +191,18 @@ gsap
     z: starsShape[4].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page7", { opacity: 0 }, ">2")
-  .to("#page8", { opacity: 1, duration: 2 }, ">1")
+  .to("#page7", { opacity: 0 })
+  .to("#page8", { opacity: 1, duration: 2 })
   .to(lookAt, {
-    x: starsShape[4].position.x - 100,
-    y: starsShape[4].position.y - 10,
-    z: starsShape[4].position.z,
+    x: 0,
+    y: 200,
+    z: 0,
+    duration: 2
+  }, "<")
+  .to(camera.position, {
+    x: 0,
+    y: 0,
+    z: -700,
     duration: 2
   }, "<");
 
