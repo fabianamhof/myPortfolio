@@ -204,7 +204,9 @@ gsap
     y: 0,
     z: -700,
     duration: 2
-  }, "<");
+  }, "<")
+  .to("#page8", { opacity: 0 })
+  .to("#page9", { opacity: 1, duration: 2 });
 
 function animate() {
   camera.lookAt(lookAt)
