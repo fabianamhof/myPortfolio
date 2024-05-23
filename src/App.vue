@@ -60,7 +60,7 @@ import MobileScene from './MobileScene.vue';
         <div class="h-full flex justify-center items-center text-white text-center">
           <div class="m-5 lg:max-w-96">
             <h1>2019-2022</h1>
-            WTook a three-year stint in Innsbruck to dive into Computer Science. Explored the vast world of tech and picked up valuable skills.
+            Took a three-year stint in Innsbruck to dive into Computer Science. Explored the vast world of tech and picked up valuable skills.
           </div>
         </div>
       </div>
