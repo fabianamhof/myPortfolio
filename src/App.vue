@@ -8,16 +8,17 @@ import MobileScene from './MobileScene.vue';
         <MobileScene />
       </Suspense>
     </div>
-    <div class="absolute top-0">
-      <div class="page">
+    <div id="content" class="absolute top-0">
+      <div id="page1" class="page">
         <div class="h-full flex justify-center items-center text-white text-center pb-36">
-          <div class="w-1/2">
-            <h1>Hi there. I'm Fabian.</h1>
+          <div class="w-1/2 flex items-center justify-center flex-col">
+            <img class="rounded-full h-24 mb-10" src="/fabian.jpg">
+            <h1>Hi there.<br/>I'm Fabian.</h1>
             <h2>Great to see you.</h2>
           </div>
         </div>
       </div>
-      <div class="page">
+      <div id="page2" class="page">
         <div class="h-full flex justify-center items-center text-white text-center  pb-36">
           <div class="m-5">
             <h1>Me</h1>
@@ -31,12 +32,73 @@ import MobileScene from './MobileScene.vue';
           </div>
         </div>
       </div>
+      <div id="page3" class="page">
+        <div class="h-full flex justify-center items-center text-white text-center">
+          <div class="m-5">
+            <h1>1997</h1>
+            I came into the world in 97, right here in Welsberg, South Tyrol."
+          </div>
+        </div>
+      </div>
+      <div id="page4" class="page">
+        <div class="h-full flex justify-center items-center text-white text-center">
+          <div class="m-5">
+            <h1>2003-2016</h1>
+            Spent some good years at TFO Bruneck. It helped me evolving me and my technical skills.
+          </div>
+        </div>
+      </div>
+      <div id="page5" class="page">
+        <div class="h-full flex justify-center items-center text-white text-center">
+          <div class="m-5">
+            <h1>2016-2019</h1>
+            Worked for three years at Elpo Bruneck, handling building control systems. It was a job that kept me engaged and encouraged innovation.
+          </div>
+        </div>
+      </div>
+      <div id="page6" class="page">
+        <div class="h-full flex justify-center items-center text-white text-center">
+          <div class="m-5">
+            <h1>2019-2022</h1>
+            WTook a three-year stint in Innsbruck to dive into Computer Science. Explored the vast world of tech and picked up valuable skills.
+          </div>
+        </div>
+      </div>
+      <div id="page7" class="page">
+        <div class="h-full flex justify-center items-center text-white text-center">
+          <div class="m-5">
+            <h1>Since 2022</h1>
+            Since 2022, I've been working with the SiMedia crew. It's been a journey of collaboration and innovation, and I'm embracing every moment.
+          </div>
+        </div>
+      </div>
+      <div id="page8" class="page">
+        <div class="h-full flex justify-center items-center text-white text-center">
+          <div class="m-5">
+            <h1>Thank you!</h1>
+            <div>
+            Here are some of the technologies that helped me build this website.<br>
+            <span class="flex justify-center items-center gap-4 my-2">
+              <a href="https://vuejs.org//"><img class="h-8 invert" alt="Three.js" src="/threejs.png"></a>
+              <a href="https://tailwindcss.com/"><img class="h-8 invert" alt="Tailwind" src="/tailwind.png"></a>
+              <a href="https://aws.amazon.com/"><img class="h-8 invert" alt="AWS" src="/aws.png"></a>
+              <a href="https://threejs.org/"><img class="h-8 invert" alt="Github" src="/github.png"></a>
+            </span>
+            <span>Contact me</span>
+            <span class="flex justify-center gap-2 my-2">
+              <a href="mailto:amhof.fabian1234@gmail.com">
+                <img class="h-8 invert" alt="Mail" src="/email.png">
+              </a>
+            </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style>
-.content,
 .starButton {
   font-family: "Space Mono", monospace;
   font-weight: 400;
@@ -54,9 +116,22 @@ import MobileScene from './MobileScene.vue';
   background-image: linear-gradient(0deg, var(--color) 30%, var(--color2) 100%);
 }
 
+#content {
+  height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .page {
+  position: absolute;
   height: 100dvh;
   width: 100dvw;
-  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+}
+
+h1 {
+  @apply !mb-5
 }
 </style>
