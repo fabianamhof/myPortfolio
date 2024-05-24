@@ -79,15 +79,16 @@ import MobileScene from './MobileScene.vue';
             <div>
             <span>Here are some of the technologies that helped me build this website.<br></span>
             <span class="flex justify-center items-center gap-4 my-2">
-              <a href="https://vuejs.org//"><img class="h-8 invert" alt="Three.js" src="/threejs.png"></a>
-              <a href="https://tailwindcss.com/"><img class="h-8 invert" alt="Tailwind" src="/tailwind.png"></a>
-              <a href="https://aws.amazon.com/"><img class="h-8 invert" alt="AWS" src="/aws.png"></a>
-              <a href="https://threejs.org/"><img class="h-8 invert" alt="Github" src="/github.png"></a>
+              <a href="https://threejs.org/"><img class="h-8 invert hover:scale-110 transition duration-300" alt="Three.js" src="/threejs.png"></a>
+              <a href="https://tailwindcss.com/"><img class="h-8 invert hover:scale-110 transition duration-300" alt="Tailwind" src="/tailwind.png"></a>
+              <a href="https://aws.amazon.com/"><img class="h-8 invert hover:scale-110 transition duration-300" alt="AWS" src="/aws.png"></a>
+              <a href="https://github.com/"><img class="h-8 invert hover:scale-110 transition duration-300" alt="Github" src="/github.png"></a>
+              <a href="https://vuejs.org/"><img class="h-8 invert hover:scale-110 transition duration-300" alt="Github" src="/vue.png"></a>
             </span>
             <span>Contact me</span>
             <span class="flex justify-center gap-2 my-2">
               <a href="mailto:amhof.fabian1234@gmail.com">
-                <img class="h-8 invert" alt="Mail" src="/email.png">
+                <img class="h-8 invert hover:scale-110 transition duration-300" alt="Mail" src="/email.png">
               </a>
             </span>
             </div>
@@ -98,9 +99,9 @@ import MobileScene from './MobileScene.vue';
         <div class="h-full flex justify-center items-center text-white text-center">
           <div class="m-5 md:max-w-xl">
             <h1>Credits</h1>
-            <p class="mb-3">This work is based on "Snow Mountain" (https://sketchfab.com/3d-models/snow-mountain-28d511ddb8624eee9684e93824e543f5) by nigromancer (https://sketchfab.com/nigromancer) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)</p>
-            <p class="mb-3">This work is based on "Cloud Low Poly #01" (https://sketchfab.com/3d-models/cloud-low-poly-01-1f7e39b63dea47bcaf6f888f34b02a80) by Game Green (https://sketchfab.com/gamegreen) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)</p>
-            <p class="mb-3">This work is based on "[Extracted] Minecraft Java Edition's Stars" (https://sketchfab.com/3d-models/extracted-minecraft-java-editions-stars-c8868b7ffc4a473eb5cd9203a59e3650) by AjaxGb (https://sketchfab.com/ajaxgb) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)</p>
+            <p class="mb-3">This work is based on <a class="underline" href="https://sketchfab.com/3d-models/snow-mountain-28d511ddb8624eee9684e93824e543f5">"Snow Mountain"</a> by <a class="underline" href="https://sketchfab.com/nigromancer">nigromancer</a> licensed under <a class="underline" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a></p>
+            <p class="mb-3">This work is based on <a class="underline" href="https://sketchfab.com/3d-models/cloud-low-poly-01-1f7e39b63dea47bcaf6f888f34b02a80">"Cloud Low Poly #01"</a> by <a class="underline" href="https://sketchfab.com/gamegreen">Game Green</a> licensed under <a class="underline" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a></p>
+            <p class="mb-3">This work is based on <a class="underline" href="https://sketchfab.com/3d-models/extracted-minecraft-java-editions-stars-c8868b7ffc4a473eb5cd9203a59e3650">"[Extracted] Minecraft Java Edition's Stars"</a> by <a class="underline" href="https://sketchfab.com/ajaxgb">AjaxGb</a> licensed under <a class="underline" href="http://creativecommons.org/licenses/by/4.0/">CC-BY-4.0</a></p>
           </div>
         </div>
       </div>
@@ -140,6 +141,7 @@ body {
   height: 100dvh;
   width: 100dvw;
   opacity: 0;
+  display: none;
 }
 
 h1 {

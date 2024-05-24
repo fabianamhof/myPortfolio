@@ -98,7 +98,7 @@ camera.position.y = 0;
 camera.position.z = 0;
 const lookAt = new THREE.Vector3(0, 12, 0)
 
-gsap.set("#page1", { opacity: 1 });
+gsap.set("#page1", { opacity: 1, display: "block" });
 gsap.set(starsMaterials.star, { opacity: 0, ease: "power4.out"});
 
 gsap
@@ -111,8 +111,8 @@ gsap
       end: "bottom+=6000px",
     }
   })
-  .to("#page1", { opacity: 0, ease: "power4.out" })
-  .to("#page2", { opacity: 1, duration: 2, ease: "power4.in" }, "<")
+  .to("#page1", { opacity: 0, display: "none", ease: "power4.out" })
+  .to("#page2", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
   .to(camera.position, { 
     x: 4, 
     y: 0, 
@@ -120,9 +120,9 @@ gsap
     duration: 2 
   }, "<")
   .to("body", { "--color": "rgba(156,36,64,1)", "--color2": "rgba(46,125,152,1)", duration: 2 }, "<")
-  .to(starsMaterials.star, { opacity: 1, duration: 2, ease: "power4.in" }, "<")
-  .to("#page2", { opacity: 0, ease: "power4.out"}, ">0.5")
-  .to("#page3", { opacity: 1, duration: 2, ease: "power4.in" }, "<")
+  .to(starsMaterials.star, { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
+  .to("#page2", { opacity: 0, display: "none", ease: "power4.out"}, ">0.5")
+  .to("#page3", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
   .to(lookAt, {
     x: starsShape[0].position.x,
     y: starsShape[0].position.y - 10,
@@ -136,8 +136,8 @@ gsap
     duration: 2
   }, "<")
   .to("body", { "--color": "rgba(17,29,33,1)", "--color2": "rgba(17,29,33,1)", duration: 2 }, "<")
-  .to("#page3", { opacity: 0, ease: "power4.out"}, ">0.5")
-  .to("#page4", { opacity: 1, duration: 2, ease: "power4.in" }, "<")
+  .to("#page3", { opacity: 0, display: "none", ease: "power4.out"}, ">0.5")
+  .to("#page4", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
   .to(lookAt, {
     x: starsShape[1].position.x,
     y: starsShape[1].position.y - 10,
@@ -150,8 +150,8 @@ gsap
     z: starsShape[1].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page4", { opacity: 0, ease: "power4.out"}, ">0.5")
-  .to("#page5", { opacity: 1, duration: 2, ease: "power4.in" }, "<")
+  .to("#page4", { opacity: 0, display: "none", ease: "power4.out"}, ">0.5")
+  .to("#page5", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
   .to(lookAt, {
     x: starsShape[2].position.x,
     y: starsShape[2].position.y - 10,
@@ -164,8 +164,8 @@ gsap
     z: starsShape[2].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page5", { opacity: 0, ease: "power4.out"}, ">0.5")
-  .to("#page6", { opacity: 1, duration: 2, ease: "power4.in" }, "<")
+  .to("#page5", { opacity: 0, display: "none", ease: "power4.out"}, ">0.5")
+  .to("#page6", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
   .to(lookAt, {
     x: starsShape[3].position.x,
     y: starsShape[3].position.y - 10,
@@ -178,8 +178,8 @@ gsap
     z: starsShape[3].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page6", { opacity: 0, ease: "power4.out"}, ">0.5")
-  .to("#page7", { opacity: 1, duration: 2, ease: "power4.in" }, "<")
+  .to("#page6", { opacity: 0, display: "none", ease: "power4.out"}, ">0.5")
+  .to("#page7", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
   .to(lookAt, {
     x: starsShape[4].position.x,
     y: starsShape[4].position.y - 10,
@@ -192,8 +192,8 @@ gsap
     z: starsShape[4].position.z - 50,
     duration: 2
   }, "<")
-  .to("#page7", { opacity: 0, ease: "power4.out"}, ">0.5")
-  .to("#page8", { opacity: 1, duration: 2, ease: "power4.in" }, "<")
+  .to("#page7", { opacity: 0, display: "none", ease: "power4.out"}, ">0.5")
+  .to("#page8", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<")
   .to(lookAt, {
     x: 0,
     y: 200,
@@ -206,8 +206,8 @@ gsap
     z: -700,
     duration: 2
   }, "<")
-  .to("#page8", { opacity: 0, ease: "power4.out"}, ">0.5")
-  .to("#page9", { opacity: 1, duration: 2, ease: "power4.in" }, "<");
+  .to("#page8", { opacity: 0, display: "none", ease: "power4.out"}, ">0.5")
+  .to("#page9", { opacity: 1, display: "block", duration: 2, ease: "power4.in" }, "<");
 
 function animate() {
   camera.lookAt(lookAt)
