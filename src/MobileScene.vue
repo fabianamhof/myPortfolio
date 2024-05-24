@@ -64,7 +64,7 @@ scene.add(clouds)
 
 const starsShape = [
   {
-    position: new THREE.Vector3(20, 75, 0)
+    position: new THREE.Vector3(20, 80, 0)
   },
   {
     position: new THREE.Vector3(10, 85, 10)

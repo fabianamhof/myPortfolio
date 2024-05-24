@@ -20,7 +20,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page2" class="page">
         <div class="h-full flex justify-center items-center text-white text-center  pb-36">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>Me</h1>
             I'm a web technology enthusiast with a knack for crafting innovative solutions that seamlessly integrate
             with
@@ -34,7 +34,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page3" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>1997</h1>
             I came into the world in 97, right here in Welsberg, South Tyrol.
           </div>
@@ -42,7 +42,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page4" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>2003-2016</h1>
             Spent some good years at TFO Bruneck. It helped me evolving me and my technical skills.
           </div>
@@ -50,7 +50,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page5" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>2016-2019</h1>
             Worked for three years at Elpo Bruneck, handling building control systems. It was a job that kept me engaged and encouraged innovation.
           </div>
@@ -58,7 +58,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page6" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>2019-2022</h1>
             Took a three-year stint in Innsbruck to dive into Computer Science. Explored the vast world of tech and picked up valuable skills.
           </div>
@@ -66,7 +66,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page7" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>Since 2022</h1>
             Since 2022, I've been working with the SiMedia crew. It's been a journey of collaboration and innovation, and I'm embracing every moment.
           </div>
@@ -74,7 +74,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page8" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>Thank you!</h1>
             <div>
             <span>Here are some of the technologies that helped me build this website.<br></span>
@@ -96,7 +96,7 @@ import MobileScene from './MobileScene.vue';
       </div>
       <div id="page9" class="page">
         <div class="h-full flex justify-center items-center text-white text-center">
-          <div class="m-5 lg:max-w-96">
+          <div class="m-5 md:max-w-xl">
             <h1>Credits</h1>
             <p class="mb-3">This work is based on "Snow Mountain" (https://sketchfab.com/3d-models/snow-mountain-28d511ddb8624eee9684e93824e543f5) by nigromancer (https://sketchfab.com/nigromancer) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)</p>
             <p class="mb-3">This work is based on "Cloud Low Poly #01" (https://sketchfab.com/3d-models/cloud-low-poly-01-1f7e39b63dea47bcaf6f888f34b02a80) by Game Green (https://sketchfab.com/gamegreen) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)</p>
@@ -109,11 +109,12 @@ import MobileScene from './MobileScene.vue';
 </template>
 
 <style>
-.starButton {
-  font-family: "Space Mono", monospace;
+body {
+  font-family: "Space Mono", monospace, Arial, Helvetica, sans-serif;
   font-weight: 400;
   font-style: normal;
   scroll-behavior: smooth;
+  @apply text-lg
 }
 
 :root {
