@@ -1,6 +1,6 @@
 # my portfolio
 
-HI! Great have a look at my project. And feel free to contribute.
+HI! Have a look at my project and feel free to contribute.
 
 ## Project Setup
 
