@@ -7,7 +7,6 @@ body {
   font-weight: 400;
   font-style: normal;
   scroll-behavior: smooth;
-  @apply text-lg
 }
 
 :root {
@@ -15,17 +14,8 @@ body {
   --color2: rgba(135, 206, 255, 1);
 }
 
-
 #container {
   background-image: linear-gradient(0deg, var(--color) 30%, var(--color2) 100%);
-}
-
-#content {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .page {
@@ -49,5 +39,5 @@ h2 {
 }
 
 body {
-  @apply text-sm;
+  @apply text-base;
 }

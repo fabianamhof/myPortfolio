@@ -4,7 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/fonts.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="I'm Fabian Amhof, and this is my portfolio">
   <title>Fabian's Portfolio</title>
 </head>
 
@@ -12,21 +15,21 @@
   <div class="relative">
     <div id="container" class="w-dvw h-dvh fixed top-0">
     </div>
-    <div id="content" class="absolute top-0">
+    <div id="content" class="absolute top-0 h-screen w-full flex flex-col text-white bg-black bg-opacity-10">
       <div id="loading" style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
         Loading...
       </div>
       <div id="page1" class="page">
-        <div class="h-full flex justify-center items-center text-white text-center pb-36">
+        <div class="h-full flex justify-center items-center text-white text-center pb-56">
           <div class="w-1/2 flex items-center justify-center flex-col">
-            <img class="rounded-full h-24 mb-10" src="/fabian.jpg">
+            <img class="rounded-full h-24 mb-10" src="./src/assets/fabian.jpg" alt="Me">
             <h1>Hi there.<br />I'm Fabian.</h1>
             <h2>Great to see you.</h2>
           </div>
         </div>
       </div>
       <div id="page2" class="page">
-        <div class="h-full flex justify-center items-center text-white text-center  pb-36">
+        <div class="h-full flex justify-center items-center text-white text-center pb-56">
           <div class="m-5 md:max-w-xl">
             <h1>Me</h1>
             I'm a web technology enthusiast with a knack for crafting innovative solutions that seamlessly integrate
@@ -90,20 +93,18 @@
               <span>Here are some of the technologies that helped me build this website.<br></span>
               <span class="flex justify-center items-center gap-4 my-2">
                 <a href="https://threejs.org/"><img class="h-8 invert hover:scale-110 transition duration-300"
-                    alt="Three.js" src="/threejs.png"></a>
+                    alt="Three.js" src="./src/assets/threejs.png"></a>
                 <a href="https://tailwindcss.com/"><img class="h-8 invert hover:scale-110 transition duration-300"
-                    alt="Tailwind" src="/tailwind.png"></a>
+                    alt="Tailwind" src="./src/assets/tailwind.png"></a>
                 <a href="https://aws.amazon.com/"><img class="h-8 invert hover:scale-110 transition duration-300"
-                    alt="AWS" src="/aws.png"></a>
+                    alt="AWS" src="./src/assets/aws.png"></a>
                 <a href="https://github.com/"><img class="h-8 invert hover:scale-110 transition duration-300"
-                    alt="Github" src="/github.png"></a>
-                <a href="https://vuejs.org/"><img class="h-8 invert hover:scale-110 transition duration-300"
-                    alt="Github" src="/vue.png"></a>
+                    alt="Github" src="./src/assets/github.png"></a>
               </span>
               <span>Contact me</span>
               <span class="flex justify-center gap-2 my-2">
                 <a href="mailto:amhof.fabian1234@gmail.com">
-                  <img class="h-8 invert hover:scale-110 transition duration-300" alt="Mail" src="/email.png">
+                  <img class="h-8 invert hover:scale-110 transition duration-300" alt="Mail" src="./src/assets/email.png">
                 </a>
               </span>
             </div>

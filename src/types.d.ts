@@ -1,8 +1,4 @@
-import type { Vector3 } from 'three'
-
-type Star = {
-  title: string
-  description: string
-  point: Vector3
-  offset: Vector3
+declare module '*.gltf' {
+  const src: string
+  export default src
 }
