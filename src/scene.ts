@@ -37,7 +37,7 @@ export async function initScene() {
     initStarConstellation()
   ])
   //ANIMATE
-  animateOnScroll();
+  animateOnScroll()
 
   function animate() {
     camera.lookAt(lookAt)
@@ -57,8 +57,7 @@ export async function initScene() {
   function animateOnScroll() {
     gsap.set('#page1', { opacity: 1, display: 'block' })
     gsap.set(stars.materials.star, { opacity: 0, ease: 'power4.out' })
-    const timeline = gsap
-    .timeline({
+    const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: '#content',
         start: 'top top',
@@ -68,32 +67,32 @@ export async function initScene() {
       }
     })
 
-    const pages = document.getElementsByClassName("page");
-    for(let i = 1; i < pages.length; i++) {
+    const pages = document.getElementsByClassName('page')
+    for (let i = 1; i < pages.length; i++) {
       timeline
-      .to(`#page${i}`, { opacity: 0, display: 'none', ease: 'power4.out' })
-      .to(`#page${i+1}`, { opacity: 1, display: 'block', duration: 2, ease: 'power4.in' }, '<')
+        .to(`#page${i}`, { opacity: 0, display: 'none', ease: 'power4.out' })
+        .to(`#page${i + 1}`, { opacity: 1, display: 'block', duration: 2, ease: 'power4.in' }, '<')
 
       if (i === 1) {
         timeline
-        .to(camera.position, { x: 4, y: 0, z: -25, duration: 2 }, '<')
-        .to('body', { '--color': 'rgba(156,36,64,1)', '--color2': 'rgba(46,125,152,1)', duration: 2 }, '<')
-        .to(stars.materials.star, { opacity: 1, duration: 2, ease: 'power4.in' }, '<')
+          .to(camera.position, { x: 4, y: 0, z: -25, duration: 2 }, '<')
+          .to('body', { '--color': 'rgba(156,36,64,1)', '--color2': 'rgba(46,125,152,1)', duration: 2 }, '<')
+          .to(stars.materials.star, { opacity: 1, duration: 2, ease: 'power4.in' }, '<')
       } else if (i === 2) {
         const p = starConstellation[0]
         timeline
-        .to(lookAt, {x: p.x, y: p.y - 10, z: p.z, duration: 2},'<')
-        .to(camera.position, { x: p.x, y: p.y, z: p.z - 50, duration: 2 },'<')
-        .to('body', { '--color': 'rgba(17,29,33,1)', '--color2': 'rgba(17,29,33,1)', duration: 2 }, '<')
+          .to(lookAt, { x: p.x, y: p.y - 10, z: p.z, duration: 2 }, '<')
+          .to(camera.position, { x: p.x, y: p.y, z: p.z - 50, duration: 2 }, '<')
+          .to('body', { '--color': 'rgba(17,29,33,1)', '--color2': 'rgba(17,29,33,1)', duration: 2 }, '<')
       } else if (i >= 3 && i <= 6) {
-        const p = starConstellation[i-2]
+        const p = starConstellation[i - 2]
         timeline
-        .to(lookAt, {x: p.x, y: p.y - 10, z: p.z, duration: 2},'<')
-        .to(camera.position, { x: p.x, y: p.y, z: p.z - 50, duration: 2 },'<')
+          .to(lookAt, { x: p.x, y: p.y - 10, z: p.z, duration: 2 }, '<')
+          .to(camera.position, { x: p.x, y: p.y, z: p.z - 50, duration: 2 }, '<')
       } else if (i === 7) {
         timeline
-        .to(lookAt,{x: 0,y: 200,z: 0,duration: 2},'<')
-        .to(camera.position,{x: 0,y: 0,z: -700,duration: 2},'<')
+          .to(lookAt, { x: 0, y: 200, z: 0, duration: 2 }, '<')
+          .to(camera.position, { x: 0, y: 0, z: -700, duration: 2 }, '<')
       }
     }
   }
@@ -115,7 +114,7 @@ export async function initScene() {
   }
 
   async function initStars() {
-    const gltf = await loader.loadAsync("/stars/scene.gltf")
+    const gltf = await loader.loadAsync('/stars/scene.gltf')
     const { materials } = trasverseObjects(gltf.scene)
     materials.star.transparent = true
     scene.add(gltf.scene)
@@ -124,7 +123,7 @@ export async function initScene() {
   }
 
   async function initClouds() {
-    const gltf = await loader.loadAsync("/clouds/scene.gltf")
+    const gltf = await loader.loadAsync('/clouds/scene.gltf')
     gltf.scene.position.x = 8
     gltf.scene.position.y = 7
     gltf.scene.position.z = -7
@@ -177,6 +176,7 @@ export async function initScene() {
 function trasverseObjects(object: THREE.Object3D) {
   const data: {
     nodes: { [key: string]: THREE.Object3D<THREE.Object3DEventMap> }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     materials: { [key: string]: any }
   } = { nodes: {}, materials: {} }
   if (object) {
