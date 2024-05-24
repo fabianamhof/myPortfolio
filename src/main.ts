@@ -1,7 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
 import '@/style.css'
 import '@/fonts.css'
+import { initScene } from './scene';
 
-const app = createApp(App)
-app.mount('#app')
+(async () => {
+  await initScene();
+  document.getElementById("loading")!.style.display = "none";
+})();

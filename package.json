@@ -14,11 +14,8 @@
     "deploy": "aws s3 sync dist/ s3://www.fabianamhof.com && aws cloudfront create-invalidation --distribution-id E3OT4S384FG1H --paths '/*'"
   },
   "dependencies": {
-    "@tresjs/cientos": "^3.8.0",
-    "@tresjs/core": "^3.9.0",
     "gsap": "^3.12.5",
-    "three": "^0.163.0",
-    "vue": "^3.4.21"
+    "three": "^0.163.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
