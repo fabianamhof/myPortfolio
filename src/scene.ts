@@ -1,33 +1,33 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
-import * as THREE from 'three'
-import { GLTFLoader } from 'three/examples/jsm/Addons.js'
+import { WebGLRenderer, Scene, AmbientLight, DirectionalLight, PerspectiveCamera, Vector3, Color, MeshBasicMaterial, SphereGeometry, Mesh, BufferGeometry, Line, Object3D, Object3DEventMap } from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const loader = new GLTFLoader()
 export async function initScene() {
-  const renderer = new THREE.WebGLRenderer({
+  const renderer = new WebGLRenderer({
     alpha: true,
     antialias: true
   })
 
   //INIT Scene
-  const scene = new THREE.Scene()
+  const scene = new Scene()
   scene.position.y = 0
   //INIT Light
-  const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+  const ambientLight = new AmbientLight(0xffffff, 1)
   scene.add(ambientLight)
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 3)
+  const directionalLight = new DirectionalLight(0xffffff, 3)
   directionalLight.position.x = 20
   directionalLight.position.y = 50
   directionalLight.position.z = 10
   scene.add(directionalLight)
   //INIT Camera
-  const camera = new THREE.PerspectiveCamera()
+  const camera = new PerspectiveCamera()
   camera.position.x = 25
   camera.position.y = 0
   camera.position.z = 0
-  const lookAt = new THREE.Vector3(0, 12, 0)
+  const lookAt = new Vector3(0, 12, 0)
   //INIT Objects
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clouds, mountain, stars, starConstellation] = await Promise.all([
@@ -138,7 +138,7 @@ export async function initScene() {
     nodes.Cylinder005.visible = false
 
     Object.values(materials).forEach((m) => {
-      m.emissive = new THREE.Color(0.6, 0.6, 0.6)
+      m.emissive = new Color(0.6, 0.6, 0.6)
       m.transparent = true
       const materialTimeline = gsap.timeline()
       materialTimeline.to(m, { opacity: 0, duration: 4 }, '26')
@@ -152,30 +152,30 @@ export async function initScene() {
 
   async function initStarConstellation() {
     const starConstellation = [
-      new THREE.Vector3(20, 80, 0),
-      new THREE.Vector3(10, 85, 10),
-      new THREE.Vector3(0, 81, 20),
-      new THREE.Vector3(-10, 75, 40),
-      new THREE.Vector3(-20, 78, 30)
+      new Vector3(20, 80, 0),
+      new Vector3(10, 85, 10),
+      new Vector3(0, 81, 20),
+      new Vector3(-10, 75, 40),
+      new Vector3(-20, 78, 30)
     ]
-    const starConstellationMaterial = new THREE.MeshBasicMaterial()
-    const sphereGeometry = new THREE.SphereGeometry(0.5)
+    const starConstellationMaterial = new MeshBasicMaterial()
+    const sphereGeometry = new SphereGeometry(0.5)
     starConstellation.forEach((s) => {
-      const sphere = new THREE.Mesh(sphereGeometry, starConstellationMaterial)
+      const sphere = new Mesh(sphereGeometry, starConstellationMaterial)
       sphere.position.set(s.x, s.y, s.z)
       scene.add(sphere)
     })
-    const bufferGeometry = new THREE.BufferGeometry().setFromPoints(starConstellation)
-    const line = new THREE.Line(bufferGeometry, starConstellationMaterial)
+    const bufferGeometry = new BufferGeometry().setFromPoints(starConstellation)
+    const line = new Line(bufferGeometry, starConstellationMaterial)
     scene.add(line)
 
     return starConstellation
   }
 }
 
-function trasverseObjects(object: THREE.Object3D) {
+function trasverseObjects(object: Object3D) {
   const data: {
-    nodes: { [key: string]: THREE.Object3D<THREE.Object3DEventMap> }
+    nodes: { [key: string]: Object3D<Object3DEventMap> }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     materials: { [key: string]: any }
   } = { nodes: {}, materials: {} }
@@ -184,7 +184,7 @@ function trasverseObjects(object: THREE.Object3D) {
       if (obj.name) {
         data.nodes[obj.name] = obj
       }
-      if (obj instanceof THREE.Mesh) {
+      if (obj instanceof Mesh) {
         if (obj.material && !data.materials[obj.material.name]) {
           data.materials[obj.material.name] = obj.material
         }
