@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/fonts.css">
+  <link rel="stylesheet" href="src/tools/tools.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Free QR code generator with custom colours, gradients, dot styles and your own logo. Runs entirely in your browser – no sign-up, no tracking, codes never expire.">
+  <title>Free QR Code Generator with Logo – Fabian Amhof</title>
+</head>
+
+<body class="tools-body">
+  <header class="mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
+    <a href="/" class="text-sm font-bold sm:text-base">fabianamhof.com</a>
+    <nav class="tools-nav flex gap-3 whitespace-nowrap text-xs sm:gap-4 sm:text-sm">
+      <a href="/tools.html">Tools</a>
+      <a href="/qr-code-generator.html" aria-current="page">QR Code</a>
+      <a href="/image-compressor.html">Compressor</a>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 pb-16">
+    <div class="mb-8 mt-4 text-center">
+      <h1>QR Code Generator</h1>
+      <p class="mx-auto max-w-xl text-white/70">Style it, add your logo, download it. Everything happens in your browser –
+        static codes that never expire and no data ever leaves your device.</p>
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-[1fr_380px]">
+      <!-- Controls -->
+      <div class="flex flex-col gap-6">
+        <section class="panel">
+          <h2 class="!mb-4 !text-base font-bold">1 · Content</h2>
+          <div class="mb-4 flex flex-wrap gap-2" id="type-chips">
+            <button class="chip" data-type="url" aria-pressed="true">URL / Text</button>
+            <button class="chip" data-type="wifi" aria-pressed="false">Wi-Fi</button>
+            <button class="chip" data-type="email" aria-pressed="false">E-Mail</button>
+            <button class="chip" data-type="vcard" aria-pressed="false">Contact</button>
+          </div>
+
+          <div data-form="url">
+            <label class="field-label" for="url-text">URL or text</label>
+            <textarea id="url-text" class="input" rows="2" placeholder="https://example.com">https://www.fabianamhof.com</textarea>
+          </div>
+
+          <div data-form="wifi" class="hidden grid gap-3 sm:grid-cols-2">
+            <div>
+              <label class="field-label" for="wifi-ssid">Network name (SSID)</label>
+              <input id="wifi-ssid" class="input" placeholder="My Wi-Fi">
+            </div>
+            <div>
+              <label class="field-label" for="wifi-pass">Password</label>
+              <input id="wifi-pass" class="input" type="text" autocomplete="off" placeholder="••••••••">
+            </div>
+            <div>
+              <label class="field-label" for="wifi-enc">Encryption</label>
+              <select id="wifi-enc" class="input">
+                <option value="WPA">WPA / WPA2 / WPA3</option>
+                <option value="WEP">WEP</option>
+                <option value="nopass">None</option>
+              </select>
+            </div>
+            <label class="flex items-end gap-2 pb-2 text-sm">
+              <input id="wifi-hidden" type="checkbox"> Hidden network
+            </label>
+          </div>
+
+          <div data-form="email" class="hidden grid gap-3">
+            <div>
+              <label class="field-label" for="mail-to">Recipient</label>
+              <input id="mail-to" class="input" type="email" placeholder="hello@example.com">
+            </div>
+            <div>
+              <label class="field-label" for="mail-subject">Subject</label>
+              <input id="mail-subject" class="input">
+            </div>
+            <div>
+              <label class="field-label" for="mail-body">Message</label>
+              <textarea id="mail-body" class="input" rows="2"></textarea>
+            </div>
+          </div>
+
+          <div data-form="vcard" class="hidden grid gap-3 sm:grid-cols-2">
+            <div>
+              <label class="field-label" for="vc-first">First name</label>
+              <input id="vc-first" class="input">
+            </div>
+            <div>
+              <label class="field-label" for="vc-last">Last name</label>
+              <input id="vc-last" class="input">
+            </div>
+            <div>
+              <label class="field-label" for="vc-phone">Phone</label>
+              <input id="vc-phone" class="input" type="tel">
+            </div>
+            <div>
+              <label class="field-label" for="vc-email">E-Mail</label>
+              <input id="vc-email" class="input" type="email">
+            </div>
+            <div>
+              <label class="field-label" for="vc-org">Company</label>
+              <input id="vc-org" class="input">
+            </div>
+            <div>
+              <label class="field-label" for="vc-url">Website</label>
+              <input id="vc-url" class="input" type="url">
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="!mb-4 !text-base font-bold">2 · Style</h2>
+
+          <span class="field-label">Presets</span>
+          <div class="mb-5 flex flex-wrap gap-2" id="presets">
+            <button class="chip" data-preset="classic">Classic</button>
+            <button class="chip" data-preset="sky">Sky</button>
+            <button class="chip" data-preset="sunset">Sunset</button>
+            <button class="chip" data-preset="forest">Forest</button>
+            <button class="chip" data-preset="night">Night</button>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label class="field-label" for="dot-type">Dots</label>
+              <select id="dot-type" class="input">
+                <option value="square">Square</option>
+                <option value="rounded">Rounded</option>
+                <option value="extra-rounded">Extra rounded</option>
+                <option value="dots">Dots</option>
+                <option value="classy">Classy</option>
+                <option value="classy-rounded">Classy rounded</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="corner-type">Corner frame</label>
+              <select id="corner-type" class="input">
+                <option value="square">Square</option>
+                <option value="extra-rounded">Rounded</option>
+                <option value="dot">Circle</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="corner-dot-type">Corner dot</label>
+              <select id="corner-dot-type" class="input">
+                <option value="square">Square</option>
+                <option value="dot">Circle</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div>
+              <label class="field-label" for="fg">Colour</label>
+              <input id="fg" type="color" class="swatch" value="#0b1626">
+            </div>
+            <div>
+              <label class="field-label" for="fg2">Gradient end</label>
+              <input id="fg2" type="color" class="swatch" value="#3b82f6" disabled>
+            </div>
+            <div>
+              <label class="field-label" for="corner-color">Corners</label>
+              <input id="corner-color" type="color" class="swatch" value="#0b1626">
+            </div>
+            <div>
+              <label class="field-label" for="bg">Background</label>
+              <input id="bg" type="color" class="swatch" value="#ffffff">
+            </div>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            <label class="flex items-center gap-2"><input id="use-gradient" type="checkbox"> Gradient</label>
+            <label class="flex items-center gap-2"><input id="transparent-bg" type="checkbox"> Transparent background</label>
+          </div>
+          <p id="contrast-warning" class="mt-3 hidden rounded-lg bg-amber-400/15 px-3 py-2 text-xs text-amber-200"></p>
+        </section>
+
+        <section class="panel">
+          <h2 class="!mb-4 !text-base font-bold">3 · Logo &amp; Export</h2>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <span class="field-label">Logo (optional)</span>
+              <div class="flex gap-2">
+                <label class="btn flex-1">
+                  <input id="logo-input" type="file" accept="image/*" class="hidden">
+                  <span id="logo-label">Upload image</span>
+                </label>
+                <button id="logo-remove" class="btn hidden" title="Remove logo">✕</button>
+              </div>
+            </div>
+            <div>
+              <label class="field-label" for="logo-size">Logo size</label>
+              <input id="logo-size" type="range" min="0.15" max="0.45" step="0.01" value="0.3">
+            </div>
+            <div>
+              <label class="field-label" for="ecl">Error correction</label>
+              <select id="ecl" class="input">
+                <option value="auto">Auto (High with logo)</option>
+                <option value="L">Low · 7 %</option>
+                <option value="M">Medium · 15 %</option>
+                <option value="Q">Quartile · 25 %</option>
+                <option value="H">High · 30 %</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="export-size">Export size: <span id="export-size-value">1024</span> px</label>
+              <input id="export-size" type="range" min="256" max="4096" step="128" value="1024">
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Preview -->
+      <aside class="order-first lg:order-none lg:sticky lg:top-6 lg:self-start">
+        <div class="panel flex flex-col items-center gap-5">
+          <div id="tilt-stage" class="tilt-stage w-full">
+            <div id="tilt-card" class="tilt-card checker relative mx-auto aspect-square w-full max-w-[320px] overflow-hidden rounded-2xl shadow-2xl shadow-black/40">
+              <div id="qr-preview" class="h-full w-full [&>canvas]:h-full [&>canvas]:w-full [&>svg]:h-full [&>svg]:w-full"></div>
+              <div class="glare"></div>
+            </div>
+          </div>
+          <p id="qr-error" class="hidden text-center text-sm text-red-300"></p>
+          <div class="grid w-full grid-cols-2 gap-2">
+            <button class="btn btn-primary" data-download="png">PNG</button>
+            <button class="btn btn-primary" data-download="svg">SVG</button>
+            <button class="btn" data-download="jpeg">JPG</button>
+            <button class="btn" data-download="webp">WebP</button>
+          </div>
+          <button id="copy-btn" class="btn w-full">Copy image to clipboard</button>
+          <p class="text-center text-xs text-white/50">Tip: always test-scan your code before printing it.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script type="module" src="/src/tools/qr.ts"></script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+/* Shared styles for the tool pages (QR generator, image compressor, overview) */
+
+.tools-body {
+  min-height: 100dvh;
+  color: #fff;
+  background: radial-gradient(1200px 600px at 80% -10%, rgba(135, 206, 255, 0.35), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(135, 206, 255, 0.18), transparent 60%),
+    linear-gradient(180deg, #0b1626 0%, #0e2238 60%, #10304d 100%);
+  background-color: #10304d;
+}
+
+.tools-nav a {
+  @apply opacity-70 hover:opacity-100 transition;
+}
+
+.tools-nav a[aria-current='page'] {
+  @apply opacity-100 underline underline-offset-4;
+}
+
+.panel {
+  @apply rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur-md shadow-xl shadow-black/20;
+}
+
+.field-label {
+  @apply mb-1 block text-xs uppercase tracking-wider text-white/60;
+}
+
+.input {
+  @apply w-full rounded-lg border border-white/20 bg-black/30 px-3 py-2 text-sm text-white placeholder-white/40 outline-none transition focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30;
+}
+
+select.input option {
+  @apply bg-slate-900;
+}
+
+.btn {
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/25 px-4 py-2 text-sm transition hover:bg-white/10 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40;
+}
+
+.btn-primary {
+  @apply border-sky-300 bg-sky-300 font-bold text-slate-900 hover:bg-sky-200;
+}
+
+.chip {
+  @apply cursor-pointer rounded-full border border-white/20 px-3 py-1 text-xs transition hover:bg-white/10;
+}
+
+.chip[aria-pressed='true'] {
+  @apply border-sky-300 bg-sky-300/20 text-sky-100;
+}
+
+input[type='color'].swatch {
+  @apply h-10 w-full cursor-pointer rounded-lg border border-white/20 bg-transparent p-1;
+}
+
+input[type='range'] {
+  accent-color: rgb(135, 206, 255);
+  @apply w-full;
+}
+
+/* Checkerboard to visualise transparency */
+.checker {
+  background-color: #e5e7eb;
+  background-image: linear-gradient(45deg, #cbd5e1 25%, transparent 25%), linear-gradient(-45deg, #cbd5e1 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #cbd5e1 75%), linear-gradient(-45deg, transparent 75%, #cbd5e1 75%);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+}
+
+/* 3D tilt card for the QR preview */
+.tilt-stage {
+  perspective: 900px;
+}
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+.tilt-card .glare {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, 0.35), transparent 55%);
+  opacity: var(--go, 0);
+  transition: opacity 0.3s;
+  mix-blend-mode: soft-light;
+}
+
+.dropzone[data-active='true'] {
+  @apply border-sky-300 bg-sky-300/10;
+}
+
+/* Before / after comparison */
+.compare {
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  touch-action: none;
+}
+
+.compare img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.compare .after {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 0 0 var(--pos, 50%));
+}
+
+.compare .handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos, 50%);
+  width: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+  transform: translateX(-1px);
+}
+
+.compare .handle::after {
+  content: '⇆';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  height: 2.25rem;
+  width: 2.25rem;
+  place-items: center;
+  border-radius: 9999px;
+  background: #fff;
+  color: #0b1626;
+  transform: translate(-50%, -50%);
+}
+
+.toast {
+  @apply pointer-events-none fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-white px-4 py-2 text-sm text-slate-900 opacity-0 shadow-lg transition;
+}
+
+.toast[data-show='true'] {
+  @apply opacity-100;
+}
+
+/* Component classes above set display and would otherwise override Tailwind's .hidden */
+.btn.hidden {
+  display: none;
+}

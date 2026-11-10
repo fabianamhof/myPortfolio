@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="src/style.css">
+  <link rel="stylesheet" href="src/fonts.css">
+  <link rel="stylesheet" href="src/tools/tools.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Compress, resize and convert images to WebP, AVIF, JPG or PNG right in your browser. Batch processing, before/after comparison, removes EXIF/GPS metadata. Your photos are never uploaded.">
+  <title>Image Compressor &amp; Converter (WebP, AVIF, JPG) – Fabian Amhof</title>
+</head>
+
+<body class="tools-body">
+  <header class="mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
+    <a href="/" class="text-sm font-bold sm:text-base">fabianamhof.com</a>
+    <nav class="tools-nav flex gap-3 whitespace-nowrap text-xs sm:gap-4 sm:text-sm">
+      <a href="/tools.html">Tools</a>
+      <a href="/qr-code-generator.html">QR Code</a>
+      <a href="/image-compressor.html" aria-current="page">Compressor</a>
+    </nav>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 pb-16">
+    <div class="mb-8 mt-4 text-center">
+      <h1>Image Compressor</h1>
+      <p class="mx-auto max-w-xl text-white/70">Shrink, resize and convert your images. Your photos never leave your
+        device – all processing happens locally in your browser.</p>
+    </div>
+
+    <section class="panel mb-6">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div>
+          <label class="field-label" for="format">Output format</label>
+          <select id="format" class="input">
+            <option value="image/webp">WebP (recommended)</option>
+            <option value="image/avif" disabled>AVIF</option>
+            <option value="image/jpeg">JPG</option>
+            <option value="image/png">PNG (lossless)</option>
+            <option value="original">Keep original format</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="quality">Quality: <span id="quality-value">80</span> %</label>
+          <input id="quality" type="range" min="10" max="100" step="1" value="80">
+        </div>
+        <div>
+          <label class="field-label" for="max-size">Max. width / height</label>
+          <select id="max-size" class="input">
+            <option value="0">Keep original</option>
+            <option value="3840">3840 px (4K)</option>
+            <option value="2560">2560 px</option>
+            <option value="1920" selected>1920 px (Full HD)</option>
+            <option value="1280">1280 px</option>
+            <option value="800">800 px</option>
+            <option value="400">400 px</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <p class="text-xs text-white/60">🔒 Metadata such as EXIF and GPS location is removed automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <label id="dropzone"
+      class="dropzone panel flex cursor-pointer flex-col items-center justify-center gap-2 border-2 border-dashed !bg-white/[0.03] py-14 text-center transition">
+      <input id="file-input" type="file" accept="image/*" multiple class="hidden">
+      <span class="text-4xl">⬇</span>
+      <span class="font-bold">Drop images here, paste them, or click to choose</span>
+      <span class="text-xs text-white/50">JPG, PNG, WebP, AVIF, GIF (first frame), BMP · multiple files at once</span>
+    </label>
+
+    <section id="summary" class="mt-6 hidden">
+      <div class="panel flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="text-xs uppercase tracking-wider text-white/60">Total</div>
+          <div id="summary-text" class="text-lg font-bold"></div>
+        </div>
+        <div class="flex gap-2">
+          <button id="clear-btn" class="btn">Clear</button>
+          <button id="zip-btn" class="btn btn-primary">Download all (.zip)</button>
+        </div>
+      </div>
+    </section>
+
+    <ul id="results" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></ul>
+  </main>
+
+  <!-- Before / after dialog -->
+  <dialog id="compare-dialog"
+    class="w-[min(96vw,1100px)] max-w-none rounded-2xl border border-white/15 bg-slate-900 p-0 text-white backdrop:bg-black/70">
+    <div class="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 text-sm">
+      <span><span class="text-white/60">Original</span> <span id="cmp-before"></span></span>
+      <span><span class="text-white/60">Compressed</span> <span id="cmp-after"></span></span>
+      <button id="cmp-close" class="btn !px-3 !py-1" aria-label="Close">✕</button>
+    </div>
+    <div id="compare" class="compare checker max-h-[80vh] cursor-ew-resize overflow-auto">
+      <img id="cmp-img-before" alt="Original">
+      <img id="cmp-img-after" class="after" alt="Compressed">
+      <div class="handle"></div>
+    </div>
+  </dialog>
+
+  <template id="result-template">
+    <li class="panel flex flex-col gap-3 !p-3">
+      <button class="thumb checker relative aspect-video overflow-hidden rounded-lg" title="Compare before / after">
+        <img class="h-full w-full object-contain" alt="">
+        <span class="badge absolute right-2 top-2 rounded-full bg-black/70 px-2 py-0.5 text-xs"></span>
+      </button>
+      <div class="min-w-0">
+        <div class="name truncate text-sm font-bold"></div>
+        <div class="meta text-xs text-white/60"></div>
+      </div>
+      <div class="flex gap-2">
+        <button class="compare-btn btn flex-1 !py-1.5 text-xs">Compare</button>
+        <button class="download-btn btn btn-primary flex-1 !py-1.5 text-xs">Download</button>
+      </div>
+    </li>
+  </template>
+
+  <script type="module" src="/src/tools/compress.ts"></script>
+</body>
+
+</html>

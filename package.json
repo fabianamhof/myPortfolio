@@ -12,7 +12,9 @@
     "deploy": "aws s3 sync dist/ s3://www.fabianamhof.com && aws cloudfront create-invalidation --distribution-id E3OT4S384FG1H --paths '/*'"
   },
   "dependencies": {
+    "fflate": "^0.8.3",
     "gsap": "^3.12.5",
+    "qr-code-styling": "^1.9.2",
     "three": "^0.163.0"
   },
   "devDependencies": {
