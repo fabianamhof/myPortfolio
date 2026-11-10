@@ -10,7 +10,8 @@ export default defineConfig({
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
         tools: fileURLToPath(new URL('./tools.html', import.meta.url)),
         qr: fileURLToPath(new URL('./qr-code-generator.html', import.meta.url)),
-        compressor: fileURLToPath(new URL('./image-compressor.html', import.meta.url))
+        compressor: fileURLToPath(new URL('./image-compressor.html', import.meta.url)),
+        bgremove: fileURLToPath(new URL('./background-remover.html', import.meta.url))
       }
     }
   },

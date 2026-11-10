@@ -111,6 +111,11 @@ input[type='range'] {
   height: auto;
 }
 
+/* The original only shows left of the divider, so it never shines through transparent result pixels */
+.compare .before {
+  clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0);
+}
+
 .compare .after {
   position: absolute;
   inset: 0;
@@ -154,4 +159,31 @@ input[type='range'] {
 /* Component classes above set display and would otherwise override Tailwind's .hidden */
 .btn.hidden {
   display: none;
+}
+
+/* Scanning line shown while the background remover is working */
+.scan {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(135, 206, 255, 0.55) 48%, #fff 50%, transparent 52%);
+  background-size: 100% 220%;
+  animation: scan 1.6s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+
+@keyframes scan {
+  from {
+    background-position: 0 100%;
+  }
+  to {
+    background-position: 0 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scan {
+    animation: none;
+    background: rgba(135, 206, 255, 0.15);
+  }
 }

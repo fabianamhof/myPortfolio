@@ -9,17 +9,18 @@
   <link rel="stylesheet" href="src/tools/tools.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Free, privacy-friendly web tools by Fabian Amhof: QR code generator and image compressor. No sign-up, no uploads – everything runs in your browser.">
+    content="Free, privacy-friendly web tools by Fabian Amhof: QR code generator, image compressor and AI background remover. No sign-up, no uploads – everything runs in your browser.">
   <title>Free Web Tools – Fabian Amhof</title>
 </head>
 
 <body class="tools-body">
-  <header class="mx-auto flex max-w-6xl items-center justify-between px-4 py-5">
+  <header class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-5">
     <a href="/" class="text-sm font-bold sm:text-base">fabianamhof.com</a>
-    <nav class="tools-nav flex gap-3 whitespace-nowrap text-xs sm:gap-4 sm:text-sm">
+    <nav class="tools-nav flex flex-wrap gap-x-3 gap-y-1 whitespace-nowrap text-xs sm:gap-x-4 sm:text-sm">
       <a href="/tools.html" aria-current="page">Tools</a>
       <a href="/qr-code-generator.html">QR Code</a>
       <a href="/image-compressor.html">Compressor</a>
+      <a href="/background-remover.html">Background</a>
     </nav>
   </header>
 
@@ -42,6 +43,12 @@
         <h2 class="!mb-2 !text-lg font-bold group-hover:text-sky-200">Image Compressor</h2>
         <p class="text-sm text-white/70">Compress, resize and convert to WebP, AVIF, JPG or PNG. Batch processing,
           before/after slider, strips GPS metadata.</p>
+      </a>
+      <a href="/background-remover.html" class="panel group block transition hover:-translate-y-1 hover:border-sky-300/60">
+        <div class="mb-3 text-4xl">✂</div>
+        <h2 class="!mb-2 !text-lg font-bold group-hover:text-sky-200">Background Remover</h2>
+        <p class="text-sm text-white/70">Cut out people, pets or products with a small open-source AI model that runs on
+          your device. Transparent PNG, colour or blurred background.</p>
       </a>
     </div>
   </main>
